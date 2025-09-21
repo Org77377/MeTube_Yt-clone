@@ -1,13 +1,12 @@
 import "../style.css";
 
 function SideMenu(){
-
+    
     return(
         <>
             <div className="side-menu">
                 <div className="side-container">
                     {/* button to hide menu  */}
-
                     <div className="content">
                         <span><i class="bi bi-house-fill"></i></span>
                         <li>Home</li>

@@ -1,11 +1,15 @@
 import "../style.css";
+import { useContext } from "react";
+import { SidebarBtn } from "../../context/SidebarContext";
 
 function Logo(){
+
+    const {switchSidebtn} = useContext(SidebarBtn);
 
     return (
         <>
             <div id='logoNav'>
-                <li className="icon">
+                <li className="icon" onClick={()=>switchSidebtn()}>
                     <i class="bi bi-list"></i>
                 </li>
                 <li className="logo">
