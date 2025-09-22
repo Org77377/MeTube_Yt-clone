@@ -5,34 +5,27 @@
     padding:0px;
     font-family: "Outfit", sans-serif;
     scroll-behavior: smooth;
-    overflow-x: hidden;
-    /* font-weight: 300; */
 }
-
 li {
     list-style: none;
 }
+a{
+    text-decoration: none;
+    cursor: pointer;
+}
 /* ----------------------- */
 /* Navbar styling */
-/* .navbar{
-    display: flex;
-    justify-content: space-between;
-    align-items:center;
-    flex-wrap: nowrap;
-    height: 30px;
-    background-color: bisque;
-} */
-
 .navbar{
     background-color: white;
-    height: 50px;
+    height: 60px;
     width: 100vw;
     display: grid;
     grid-template-areas: "lside cent rside";
     align-content: center;
     box-sizing: border-box;
     padding-top: 10px;
-    padding:40px 40px;
+    padding: 40px 40px;
+    margin-bottom: 50px;
     position: fixed;
     top:0px;
     font-size: 1.4rem;
@@ -41,19 +34,20 @@ li {
 
 /* Logo Styling (Navbar) */
 .logo img{
-    height: 2rem;
-    width: 2rem;
+    height: 2.5rem;
+    width: 2.5rem;
     margin-right: 0.5rem;
 }
 #logoNav {
     display: flex;
     gap: 1.8rem;
     align-items: center;
+    font-size: 1.5rem;
+    color: black;
     grid-area: rside;
     font-weight: 400;
     cursor: pointer;
 }
-
 /* User menu styling(Navbar) */
 .user-menu{
     display:flex;
@@ -67,11 +61,11 @@ li {
     grid-area: cent;
 }
 .search-bar input{
-    width: 30vw;
+    width: 40vw;
     border:1px solid rgb(222, 222, 222);
-    border-radius: 20px 0 0 20px;
+    border-radius: 30px 0 0 30px;
     font-size: 1rem;
-    padding-left:10px;
+    padding:8px;
 }
 .search-bar input:focus{
     border:1.5px solid rgba(255, 0, 0, 0.387);
@@ -93,16 +87,20 @@ li {
 /* Side menu(Navbar) */
 .side-menu{
     height:100vh;
-    width: 100%;
+    width: 20%;
     margin-top: 4rem;
     box-sizing: border-box;
     padding:1rem;
-    background-color: rgb(255, 249, 249); 
+    background-color: rgb(255, 249, 249);
+    box-shadow: 0px 40px 2000px 0px black; 
     line-height: 3rem;
     z-index: 1;
+    position: fixed;
+    top: 10px;
+    left: 0px;
     overflow-y: scroll; 
 }
-/* side menu only logo UI */
+/* side menu when not active*/
 .side-menu-sm{
     height:100vh;
     width: 100%;
@@ -113,9 +111,11 @@ li {
     background-color: rgb(255, 255, 255); 
     line-height: 3rem;
     overflow-y: scroll;
-    scroll-behavior: smooth;
 }
-.side-menu-sm::-webkit-scrollbar{
+.side-menu-sm::-webkit-scrollbar {
+    display: none;
+}
+.side-menu::-webkit-scrollbar{
     display: none;
 }
 .content-sm{
@@ -124,7 +124,7 @@ li {
     justify-content: center;
     align-items: center;
     line-height: 1.2rem;
-    font-size: 0.8em;
+    font-size: 0.6em;
     margin-top: 1.5rem;
     padding: 10px 0 10px 0;
     cursor: pointer;
@@ -151,6 +151,21 @@ li {
     color: red;
     border-radius: 10px;
 }
+.user-avatar{
+    border: 1px solid blue;
+    padding: 5px 5px 0px 5px;
+    font-size: 1rem;
+    border-radius: 30px;
+    cursor: pointer
+}
+.user-avatar:active{
+    background-color: rgba(225, 225, 225, 0.828);
+}
+
+/* Responsive design for Navbar*/
+
+
+/* sign in and user avatar */
 
 /* home and sidebar section */
 .main-section{
@@ -161,87 +176,15 @@ li {
 
 /* -------Navbar Ends Here------------------ */
 
-/* Home component styling ------------------ */ 
-/* .main-container{
-    overflow-y: scroll;
-    margin: 80px 10px 0 20px;
-    height: 100vh;
-    width: 100%;
-}
-filter section
-.filter-btns{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    margin: 10px 10px 10px 0px;
-}
-.filter{
-    border:none;
-    width: fit-content;
-    padding: 5px 10px 5px 10px;
-    background-color: rgb(234, 234, 234);
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight:400;
-}
-.filter:active{
-    background-color: rgb(47, 47, 47);
-    color: aliceblue;
-}
-
-videos section styling 
-.content-container{
-    width: 96%;
-    height: auto;
-    padding: 10px;
-    display: grid;
-    grid-template-columns: auto auto auto;
-}
-.content-box img:hover{
-    border-radius: 00px;
-}
-.content-box{
-    max-height: 300px;
-}
-.content-box img{
-    height: 70%;
-    border-radius: 20px;
-    transition: all 0.3s ease;
-}
-.video-info{
-    display: flex;
-    gap: 10px;
-    margin-top:10px;
-}
-.channel-avatar{
-    height:40px;
-    width: 40px;
-    border-radius: 50%;
-    background-color: aquamarine;
-    align-self: center;
-}
-.video-details{
-    display: flex;
-    flex-direction: column;
-}
-.vid-title{
-    font-size: 1.2rem;
-    font-weight: 500;
-}
-.sm-txt{
-    font-size: 0.8rem;
-    cursor: pointer;
-    color: rgb(99, 99, 99);
-} */
-
-/* Reset some basic styles for cross-browser consistency */
-
+/* Home section */
 /* Main container style */
 .main-container {
   font-family: 'Arial', sans-serif;
   padding: 20px;
   max-width: 1200px;
+  height: 100vh;
   margin: 80px auto;
+  overflow-y: scroll;
 }
 
 .filter-btns {
@@ -332,6 +275,10 @@ videos section styling
 
 /* Responsive Design  */
 @media (max-width: 768px) {
+  .side-menu {
+    height:100vh;
+    width: 40%;
+  }
   .filter-btns {
     justify-content: center;
   }
@@ -346,11 +293,15 @@ videos section styling
 }
 
 @media (max-width: 480px) {
+.side-menu {
+    height:100vh;
+    width: 60%;
+  }
   .filter-btns {
-    flex-direction: column;
+    flex-direction: row;
+    overflow-x: auto;
     align-items: center;
   }
-
   .content-container {
     grid-template-columns: 1fr;
   }

@@ -8,6 +8,7 @@ function UserMenu(){
                 </div>
                 <div className="user-avatar">
                     <i class="bi bi-person-circle"></i>
+                    <span className="user-signin">Sign In</span>
                 </div>
             </div>
         </>
