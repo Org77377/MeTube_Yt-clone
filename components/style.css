@@ -4,13 +4,14 @@
     margin:0px;
     padding:0px;
     font-family: "Outfit", sans-serif;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
     /* font-weight: 300; */
 }
 
 li {
     list-style: none;
 }
-
 /* ----------------------- */
 /* Navbar styling */
 /* .navbar{
@@ -23,15 +24,19 @@ li {
 } */
 
 .navbar{
-    /* background-color: bisque; */
-    height: 40px;
-    padding-top: 10px;
-    padding:40px 40px;
-    box-sizing: border-box;
+    background-color: white;
+    height: 50px;
+    width: 100vw;
     display: grid;
     grid-template-areas: "lside cent rside";
     align-content: center;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding:40px 40px;
+    position: fixed;
+    top:0px;
     font-size: 1.4rem;
+    z-index: 10;
 }
 
 /* Logo Styling (Navbar) */
@@ -69,28 +74,68 @@ li {
     padding-left:10px;
 }
 .search-bar input:focus{
-    border:1px solid black;
+    border:1.5px solid rgba(255, 0, 0, 0.387);
+    background-color:rgb(255, 245, 245);
     outline: none;
 }
 .search-btn{
-    background-color: rgb(227, 227, 227);
+    /* background-color: rgb(227, 227, 227); */
+    background-color:rgb(255, 229, 229);
     border-radius: 0 20px 20px 0;
     width: 2.4rem;
     border: none;
 }
 .search-btn:active{
-    background-color: rgb(210, 210, 210);
+    background-color: rgb(255, 184, 184);
     color:rgb(58, 58, 58);
 }
 
 /* Side menu(Navbar) */
 .side-menu{
     height:100vh;
-    width: 20%;
+    width: 100%;
+    margin-top: 4rem;
     box-sizing: border-box;
     padding:1rem;
+    background-color: rgb(255, 249, 249); 
+    line-height: 3rem;
+    z-index: 1;
+    overflow-y: scroll; 
+}
+/* side menu only logo UI */
+.side-menu-sm{
+    height:100vh;
+    width: 100%;
+    margin-top: 4rem;
+    display: flex;
+    box-sizing: border-box;
+    padding:10px 0 10px 5px;
     background-color: rgb(255, 255, 255); 
     line-height: 3rem;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+.side-menu-sm::-webkit-scrollbar{
+    display: none;
+}
+.content-sm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.2rem;
+    font-size: 0.8em;
+    margin-top: 1.5rem;
+    padding: 10px 0 10px 0;
+    cursor: pointer;
+}
+.content-sm i{
+    font-size: 1.2rem;
+}
+.content-sm:hover{
+    background-color: rgba(255, 231, 229, 0.50);
+    color: red;
+    border-radius: 10px;
 }
 .content{
     display: flex;
@@ -102,7 +147,213 @@ li {
     cursor: pointer;
 }
 .content:hover{
-    background-color: rgb(236, 236, 236);
+    background-color: rgba(255, 231, 229, 0.50);
+    color: red;
     border-radius: 10px;
 }
+
+/* home and sidebar section */
+.main-section{
+    display: grid;
+    grid-template-columns: min-content auto;
+    gap: 20px;
+}
+
 /* -------Navbar Ends Here------------------ */
+
+/* Home component styling ------------------ */ 
+/* .main-container{
+    overflow-y: scroll;
+    margin: 80px 10px 0 20px;
+    height: 100vh;
+    width: 100%;
+}
+filter section
+.filter-btns{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin: 10px 10px 10px 0px;
+}
+.filter{
+    border:none;
+    width: fit-content;
+    padding: 5px 10px 5px 10px;
+    background-color: rgb(234, 234, 234);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight:400;
+}
+.filter:active{
+    background-color: rgb(47, 47, 47);
+    color: aliceblue;
+}
+
+videos section styling 
+.content-container{
+    width: 96%;
+    height: auto;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+.content-box img:hover{
+    border-radius: 00px;
+}
+.content-box{
+    max-height: 300px;
+}
+.content-box img{
+    height: 70%;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+.video-info{
+    display: flex;
+    gap: 10px;
+    margin-top:10px;
+}
+.channel-avatar{
+    height:40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: aquamarine;
+    align-self: center;
+}
+.video-details{
+    display: flex;
+    flex-direction: column;
+}
+.vid-title{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+.sm-txt{
+    font-size: 0.8rem;
+    cursor: pointer;
+    color: rgb(99, 99, 99);
+} */
+
+/* Reset some basic styles for cross-browser consistency */
+
+/* Main container style */
+.main-container {
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 80px auto;
+}
+
+.filter-btns {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.filter {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.filter:hover {
+  background-color: #e0e0e0;
+}
+
+/* Content container styling */
+.content-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px 0px;
+}
+
+/* Content box styling */
+.content-box {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.content-box:hover {
+  transform: translateY(-4px);
+}
+
+.content-box img {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Video Info section */
+.video-info {
+  padding: 15px;
+  display: flex;
+  gap: 15px;
+}
+
+.channel-avatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.video-details {
+  flex: 1;
+}
+
+.vid-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.channel-name,
+.views-info {
+  font-size: 14px;
+  color: #888;
+  display: block;
+}
+
+.sm-txt {
+  font-size: 12px;
+}
+
+/* Responsive Design  */
+@media (max-width: 768px) {
+  .filter-btns {
+    justify-content: center;
+  }
+  
+  .filter {
+    font-size: 12px;
+  }
+
+  .content-container {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-btns {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* home ends here ---------------------- */
