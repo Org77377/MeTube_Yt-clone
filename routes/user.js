@@ -1,12 +1,10 @@
 import express from "express";
-import { signUp } from "../controllers/User.js";
+import { signUp,logIn } from "../controllers/User.js";
 
 const userRoute = express.Router();
 
-userRoute.get("/",(req, res)=>{
-    res.status(201).send("Logged In");
-})
+userRoute.post("/login", logIn)
 
-userRoute.post("/",signUp)
+userRoute.post("/signup", signUp)
 
 export default userRoute;

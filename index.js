@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import userRoute from "./routes/user.js";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
-import multer from "multer";
+import videoRoute from "./routes/video.js"
 import fileUpload from "express-fileupload";
 
 dotenv.config();
@@ -25,7 +25,7 @@ MongoConnect();
 app.use(bodyParser.json());
 app.use(fileUpload({
     useTempFiles: true,
-    tempFileDir: '/tmp/',
+    // tempFileDir: '/tmp/',
 }))
 
 app.listen(port, ()=>{
@@ -33,3 +33,4 @@ app.listen(port, ()=>{
 })
 
 app.use("/user", userRoute);
+app.use('/video', videoRoute);
