@@ -8,7 +8,7 @@ export async function checkAuth(req, res, next){
         }
         const valid = jwt.verify(token, process.env.JWT_SECRET);
         next();
-
+    
     }catch(error){
         res.status(500).json({msg: "Invalid Credentials"})
     }

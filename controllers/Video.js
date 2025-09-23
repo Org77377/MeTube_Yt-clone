@@ -12,6 +12,9 @@ export async function uploadVideo(req, res){
     try{
         const token = req.headers.authorization.split(" ")[1];
         const user = await jwt.verify(token, process.env.JWT_SECRET);
+        if(user.channel.isCreated == false){
+            return res.status(404).json({msg: "Please create a channel"});
+        }
         const uploadVid = await cloudinary.uploader.upload(req.files.video.tempFilePath, {
             resource_type: 'video',
         });
@@ -34,11 +37,13 @@ export async function uploadVideo(req, res){
     }
 }
 
-export async function updateVideo(req, res, next){
+export async function updateVideo(req, res){
     try{
         const validUser = await jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET)
         const vidID = await Video.findById(req.params.videoId);
-
+        if(validUser.channel.isCreated == false){
+            return res.status(404).json({msg: "Please create a channel"});
+        }
         if(validUser._id == vidID.uploader._id){
             if(req.body){
                 const newData = {
@@ -67,8 +72,31 @@ export async function updateVideo(req, res, next){
             }
         }
         res.json({err: "you dont have permission"})
-        next();
     }catch(error){
         return res.status(500).json({err: error})
+    }
+}
+
+export async function deleteVideo(req, res){
+    try{
+        const verify = await jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
+        const video = await Video.findById(req.params.videoID);
+        if(!video){
+            return res.status(404).json({msg: "No video found"});
+        }
+        if(video.uploader == verify._id){
+            // no channel exist
+            if(verify.channel.isCreated == false){
+                return res.status(404).json({msg: "Please create a channel"});
+            }
+            // if(verify.channel.isCreated)
+            await cloudinary.uploader.destroy(video.videoId, {resource_type: 'video'})
+            await cloudinary.uploader.destroy(video.thumbnaiId)
+            const deletedData = await Video.findByIdAndDelete(req.params.videoID);
+            return res.json({"msg": deletedData});
+        }
+        return res.status(500).json({"msg": "You dont have permission to perform this operation"})
+    }catch(error){
+        console.log(error)
     }
 }
