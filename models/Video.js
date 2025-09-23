@@ -8,6 +8,7 @@ const videoSchema = new mongoose.Schema({
   videoUrl: { type: String, required: true },
   videoId: { type: String, required: true },
   thumbnailUrl: { type: String, required: true },
+  thumbnaiId: String,
   category: String,
   views: { type: Number, default: 0 },
   likes: { type: Number, default: 0 },

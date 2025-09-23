@@ -46,13 +46,13 @@ export async function logIn(req, res){
         const email = req.body.email;
         const userFind = await User.find({email: email});
         if(userFind.length == 0){
-            res.status(400).json({"msg": "User not found"});
+            return res.status(400).json({"msg": "User not found"});
         }
         // if exist create jwt token
         const mainUsr = await User.findById(userFind[0]._id);
         const isValid = await bcrypt.compare(req.body.password, mainUsr.password);
         if(!isValid){
-            res.status(400).json({"msg": "Password is not valid"})
+            return res.status(400).json({"msg": "Password is not valid"})
         }
         const token = jwt.sign({
             _id: mainUsr._id,
@@ -61,7 +61,7 @@ export async function logIn(req, res){
             logoId: mainUsr.logoId,
         }, process.env.JWT_SECRET, {expiresIn: '20d'});
 
-        res.status(200).json({token: token});
+        return res.status(200).json({status: "Logged In", token: token});
     }catch(error){
         res.status(500).send("something went wrong");
     }
