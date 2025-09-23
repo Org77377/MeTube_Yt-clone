@@ -1,6 +1,8 @@
 import Video from "../models/Video.js";
+import channel from "../models/Channel.js";
 import jwt from "jsonwebtoken";
 import {v2 as cloudinary} from "cloudinary";
+import User from "../models/Users.js";
 
  cloudinary.config({
         cloud_name: process.env.API_NAME, 
@@ -12,7 +14,9 @@ export async function uploadVideo(req, res){
     try{
         const token = req.headers.authorization.split(" ")[1];
         const user = await jwt.verify(token, process.env.JWT_SECRET);
-        if(user.channel.isCreated == false){
+        const dbuser = await User.findById(user._id);
+
+        if(dbuser.channel.isCreated == false){
             return res.status(404).json({msg: "Please create a channel"});
         }
         const uploadVid = await cloudinary.uploader.upload(req.files.video.tempFilePath, {
@@ -31,9 +35,15 @@ export async function uploadVideo(req, res){
             category: body.category,
         })
         await video.save();
+        const userVids = await Video.find({uploader: user._id});
+        const getchanel = await channel.findOne({owner:user._id})
+        const dataarr = userVids.map(e=>e._id)
+        getchanel.videos.push(...dataarr);
+        await getchanel.save();
         res.status(201).json({msg: "video uploaded"});
+
     }catch(error){
-        res.status(500).json({msg: "Please login", err: error});
+        res.status(500).json({msg: "Something went wrong", err: error});
     }
 }
 
@@ -93,7 +103,13 @@ export async function deleteVideo(req, res){
             await cloudinary.uploader.destroy(video.videoId, {resource_type: 'video'})
             await cloudinary.uploader.destroy(video.thumbnaiId)
             const deletedData = await Video.findByIdAndDelete(req.params.videoID);
-            return res.json({"msg": deletedData});
+
+            // const getchanel = await channel.findOne({owner: verify._id});
+            // getchanel.videos = getchanel.videos.filter((d)=> d.toString() !== req.params.vidID.toString());
+            // await getchanel.save(); 
+            await channel.findOneAndUpdate({owner: verify._id}, {$pull:{videos: req.params.videoID}})
+            
+            return res.json({"msg": "Video Deleted" ,data: deletedData});
         }
         return res.status(500).json({"msg": "You dont have permission to perform this operation"})
     }catch(error){
