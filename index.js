@@ -1,9 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
-import userRoute from "./routes/user.js";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
+import userRoute from "./routes/user.js";
 import videoRoute from "./routes/video.js"
+import channelRoute from "./routes/channel.js"
 import fileUpload from "express-fileupload";
 
 dotenv.config();
@@ -34,3 +35,4 @@ app.listen(port, ()=>{
 
 app.use("/user", userRoute);
 app.use('/video', videoRoute);
+app.use("/channel", channelRoute);
