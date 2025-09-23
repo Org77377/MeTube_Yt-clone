@@ -2,11 +2,13 @@ import express from "express";
 import mongoose from "mongoose";
 import userRoute from "./routes/user.js";
 import dotenv from "dotenv";
+import bodyParser from "body-parser";
+import multer from "multer";
+import fileUpload from "express-fileupload";
 
+dotenv.config();
 const app = express();
 const port = 3000;
-dotenv.config();
-app.use(express.json());
 
 async function MongoConnect() {
     try{
@@ -20,8 +22,14 @@ async function MongoConnect() {
 
 MongoConnect();
 
+app.use(bodyParser.json());
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/',
+}))
+
 app.listen(port, ()=>{
-    console.log("server is listening");
+    console.log("server is listening on port", port);
 })
 
 app.use("/user", userRoute);

@@ -1,4 +1,5 @@
 import express from "express";
+import { signUp } from "../controllers/User.js";
 
 const userRoute = express.Router();
 
@@ -6,8 +7,6 @@ userRoute.get("/",(req, res)=>{
     res.status(201).send("Logged In");
 })
 
-userRoute.post("/",(req, res)=>{
-    res.status(201).send("Sign Up");
-})
+userRoute.post("/",signUp)
 
 export default userRoute;
