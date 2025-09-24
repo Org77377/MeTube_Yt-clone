@@ -15,7 +15,7 @@ export async function uploadVideo(req, res){
         const token = req.headers.authorization.split(" ")[1];
         const user = await jwt.verify(token, process.env.JWT_SECRET);
         const dbuser = await User.findById(user._id);
-
+        const usrchannel = await channel.findOne({owner: dbuser._id})
         if(dbuser.channel.isCreated == false){
             return res.status(404).json({msg: "Please create a channel"});
         }
