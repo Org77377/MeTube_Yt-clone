@@ -1,27 +1,37 @@
 import { videoData } from "../../utility/data";
 import {Link} from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 
 function Home() {
+
+    const[video, setVideo] = useState([])
+    useEffect(()=>{
+        async function getData(){
+            const data = await fetch('http://localhost:3000/', {method: 'GET'});
+            const finalDat = await data.json();
+            setVideo(finalDat);
+        }
+        getData();
+    },[])
+
     return(
         <div className="main-container">
-            <div className="filter-btns">
-                <button className="filter">Technology</button>
-                <button className="filter">Sci-fi</button>
-                <button className="filter">Travel</button>
-                <button className="filter">Entertainment</button>
-                <button className="filter">Entertainment</button>
-                <button className="filter">Entertainment</button>
-                <button className="filter">Entertainment</button>
-            </div>
+            {video.videos?.map((data)=>
+                <div className="filter-btns">
+                    <button className="filter">{data.category}</button>
+                </div>
+            )}
 
             <div className="content-container">
-                {videoData.map(data=>
-                <Link to={`/video/${data.videoId}`}>
+                {video.videos?.map((data)=>
+                <Link key={data._id} to={`/video/${data._id}`}>
                     <div className="content-box">
                     <img src={data.thumbnailUrl} alt="video-thumbnail" />
                     <div className="video-info">
                         <div className="channel-avatar">
-                            <img src="" alt="" />
+                            <img src={data.thumbnailUrl} alt="" />
                         </div>
                         <div className="video-details">
                             <span className="vid-title">

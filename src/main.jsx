@@ -5,6 +5,8 @@ import { ContextProvider } from '../context/SidebarContext.jsx'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import VideoPage from "../pages/VideoPage.jsx";
 import Home from '../components/Home/Home.jsx';
+import SignUp from '../pages/SignUp.jsx';
+import SignIn from '../pages/Signin.jsx';
 
 const route = createBrowserRouter([
   {
@@ -20,6 +22,14 @@ const route = createBrowserRouter([
         element:<VideoPage/>  
       },
     ]
+  },
+  {
+    path:'/signup',
+    element: <SignUp/>,
+  },
+  {
+    path:'/signin',
+    element: <SignIn/>,
   },
 ])
 
