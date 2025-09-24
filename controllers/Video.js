@@ -1,5 +1,6 @@
 import Video from "../models/Video.js";
 import channel from "../models/Channel.js";
+import Comments from "../models/Comment.js"
 import jwt from "jsonwebtoken";
 import {v2 as cloudinary} from "cloudinary";
 import User from "../models/Users.js";
@@ -176,5 +177,48 @@ export async function view(req, res){
     }
     catch(error){
         return res.status(400).send("Error loading video");
+    }
+}
+
+export async function addComment(req, res){
+    try{
+        const userDetails = jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
+        const video = await Video.findById(req.params.videoId);
+        if(!video){
+            return res.status(404).json({msg: "Video not found"});
+        }
+        if(!req.body){
+            return res.status(500).json({msg: "please add a comment"});
+        }
+        const newComment = await Comments.create({
+            by: userDetails._id,
+            videoId: video._id,
+            commentText: req.body.comment,
+        })
+        await newComment.save();
+        return res.status(200).send("comment added");
+    }catch(error){
+        res.status(502).json({msg : "Error while posting your comment"})
+    }
+}
+
+export async function updateComment(req, res){
+    try{
+        const userDetails = jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
+        const currentComment = await Comments.findById(req.params.commentId);
+        if(!currentComment){
+            return res.status(404).json({msg: "you have not commented on any video"});
+        }
+        if(!req.body){
+            return res.status(404).json({msg: "please add a comment"});
+        }
+        if(currentComment.by.equals(userDetails._id)){
+            currentComment.commentText = req.body.comment;
+            const updatedComm = await currentComment.save()
+            return res.status(201).json({msg: "Comment updated", data: updatedComm});
+        }
+        return res.status(500).json({msg: "Invalid user"});
+    }catch(error){
+        res.status(502).json({msg : "Error while posting your comment"})
     }
 }
