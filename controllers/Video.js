@@ -103,7 +103,8 @@ export async function deleteVideo(req, res){
             await cloudinary.uploader.destroy(video.videoId, {resource_type: 'video'})
             await cloudinary.uploader.destroy(video.thumbnaiId)
             const deletedData = await Video.findByIdAndDelete(req.params.videoID);
-            
+
+            // delete video id from the owners video list
             await channel.findOneAndUpdate({owner: verify._id}, {$pull:{videos: req.params.videoID}})
             
             return res.json({"msg": "Video Deleted" ,data: deletedData});
@@ -111,5 +112,54 @@ export async function deleteVideo(req, res){
         return res.status(500).json({"msg": "You dont have permission to perform this operation"})
     }catch(error){
         console.log(error)
+    }
+}
+
+export async function likeVideo(req, res){
+    try{
+        const userDetails = jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
+        if(userDetails == null){
+            return res.send("Please Login")
+        }
+        const video = await Video.findById(req.params.videoId);
+        if(video == null){
+            return res.json("No video found");
+        }else{
+        if(video.likedBy.includes(userDetails._id)){
+            return res.json({Warning: "already liked"})
+        }
+        video.likedBy.push(userDetails._id)
+        video.dislikes > 0 ? video.dislikes -= 1 : '' ;
+        video.likes += 1;
+        (video.viewedBy.includes(userDetails._id)) ? '' : video.viewedBy.push(userDetails._id) ;
+        await video.save()
+        return res.json({msg: "Video Liked"});
+    }
+    }catch(err){
+        return res.status(500).json({mssg: "Something bad happened"})
+    }
+}
+
+export async function dislikeVideo(req, res){
+    try{
+        const userDetails = jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
+        if(userDetails == null){
+            return res.send("Please Login")
+        }
+        const video = await Video.findById(req.params.videoId);
+        if(video == null){
+            return res.json("No video found");
+        }else{
+        if(video.likedBy.includes(userDetails._id)){
+            video.likedBy.pop(userDetails._id)
+            video.dislikes += 1
+            video.likes -= 1;
+            await video.save()  
+            return res.json({msg: "Video Disliked"});
+        }
+        return res.json({msg: "Video already disliked"});
+    }
+    }catch(err){
+        return res.status(500).json({mssg: "Something bad happened"})
     }
 }
