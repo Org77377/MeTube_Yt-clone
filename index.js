@@ -6,6 +6,7 @@ import userRoute from "./routes/user.js";
 import videoRoute from "./routes/video.js"
 import channelRoute from "./routes/channel.js"
 import fileUpload from "express-fileupload";
+import viewRoute from "./routes/view.js";
 
 dotenv.config();
 const app = express();
@@ -33,6 +34,7 @@ app.listen(port, ()=>{
     console.log("server is listening on port", port);
 })
 
+app.use("/view", viewRoute)
 app.use("/user", userRoute);
 app.use('/video', videoRoute);
 app.use("/channel", channelRoute);

@@ -163,3 +163,18 @@ export async function dislikeVideo(req, res){
         return res.status(500).json({mssg: "Something bad happened"})
     }
 }
+
+export async function view(req, res){
+    try{
+        const video = await Video.findById(req.params.videoId);
+        if(!video){
+            console.log("video not found");
+        }
+        video.views += 1,
+        await video.save();
+        return res.status(201).send("View added!");
+    }
+    catch(error){
+        return res.status(400).send("Error loading video");
+    }
+}
