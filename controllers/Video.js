@@ -103,10 +103,7 @@ export async function deleteVideo(req, res){
             await cloudinary.uploader.destroy(video.videoId, {resource_type: 'video'})
             await cloudinary.uploader.destroy(video.thumbnaiId)
             const deletedData = await Video.findByIdAndDelete(req.params.videoID);
-
-            // const getchanel = await channel.findOne({owner: verify._id});
-            // getchanel.videos = getchanel.videos.filter((d)=> d.toString() !== req.params.vidID.toString());
-            // await getchanel.save(); 
+            
             await channel.findOneAndUpdate({owner: verify._id}, {$pull:{videos: req.params.videoID}})
             
             return res.json({"msg": "Video Deleted" ,data: deletedData});
