@@ -1,9 +1,9 @@
 import Video from "../models/Video.js";
-import channel from "../models/Channel.js";
 import Comments from "../models/Comment.js"
 import jwt from "jsonwebtoken";
 import {v2 as cloudinary} from "cloudinary";
 import User from "../models/Users.js";
+import channel from "../models/Channel.js";
 
  cloudinary.config({
         cloud_name: process.env.API_NAME, 
@@ -69,16 +69,14 @@ export async function updateVideo(req, res){
             }else{
                 await cloudinary.uploader.destroy(`${vidID.thumbnaiId}`);
                 const updateThumb = await cloudinary.uploader.upload(req.files.thumbnail.tempFilePath);
-                const newData = {
-                    title: req.body.title,
-                    description: req.body.description,
-                    category: req.body.category,
-                    thumbnailUrl: updateThumb.secure_url,
-                    thumbnaiId: updateThumb.public_id
-                };
-                    const updatedVideoData = await Video.findByIdAndUpdate(vidID, newData,{new:true});
+                // const newData = {
+                    vidID.thumbnailUrl = updateThumb.secure_url;
+                    vidID.thumbnaiId = updateThumb.public_id;
+                // };
+                await vidID.save();
+                    // const updatedVideoData = await Video.findByIdAndUpdate(vidID, newData,{new:true});
                      return res.status(201).json({
-                        newData: updatedVideoData,
+                        newData: vidID,
                     });
             }
         }
@@ -169,11 +167,11 @@ export async function view(req, res){
     try{
         const video = await Video.findById(req.params.videoId);
         if(!video){
-            console.log("video not found");
+            return res.status(404).json("video not found");
         }
         video.views += 1,
         await video.save();
-        return res.status(201).send("View added!");
+        return res.status(201).json({msg :"View added!"});
     }
     catch(error){
         return res.status(400).send("Error loading video");
@@ -220,5 +218,19 @@ export async function updateComment(req, res){
         return res.status(500).json({msg: "Invalid user"});
     }catch(error){
         res.status(502).json({msg : "Error while posting your comment"})
+    }
+}
+
+export async function getVideos(req, res){
+    try{
+        const allVids = await Video.find({});
+        const uploader = await User.find({});
+        const chanInfo = await channel.find({})
+        res.status(200).json(
+            { videos: allVids, uploader : uploader, chInfo: chanInfo}
+        )
+    }
+    catch(err){
+        res.status(500).send("Error while fetcing videos")
     }
 }

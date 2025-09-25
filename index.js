@@ -8,7 +8,8 @@ import channelRoute from "./routes/channel.js"
 import fileUpload from "express-fileupload";
 import viewRoute from "./routes/view.js";
 import commentRouter from "./routes/comment.js";
-
+import { getVideos } from "./controllers/Video.js";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
@@ -26,6 +27,10 @@ async function MongoConnect() {
 
 MongoConnect();
 
+
+app.use(cors(
+    {credentials: true}
+))
 app.use(bodyParser.json());
 app.use(fileUpload({
     useTempFiles: true,
@@ -36,6 +41,7 @@ app.listen(port, ()=>{
     console.log("server is listening on port", port);
 })
 
+app.get("/", getVideos)
 app.use("/view", viewRoute);
 app.use("/user", userRoute); //signup and login
 app.use('/video', videoRoute); //video upload, update, delete, like, dislike
