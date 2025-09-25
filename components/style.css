@@ -286,8 +286,17 @@ a{
 
 /* Responsive Design  */
 @media (max-width: 768px) {
+
+  .main-section{
+    display: grid;
+    grid-template-columns: auto;
+    gap: auto;
+  }
+  .side-menu-sm{
+    display: none;
+  }
   .side-menu {
-    height:100vh;
+    height: auto;
     width: 40%;
   }
   .filter-btns {

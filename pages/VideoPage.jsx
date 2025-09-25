@@ -8,12 +8,16 @@ function VideoPage(){
 
     const id = useParams()
     const[video, setVideo] = useState([])
+    const[comments, setComments] = useState([])
+    const[allvids, setAll] = useState([])
 
         useEffect(()=>{
             async function getData(){
                 const data = await fetch(`http://localhost:3000/view/${id.id}`, {method: 'PUT'});
                 const jsonData = await data.json();
                 setVideo(jsonData.data);
+                setAll(jsonData)
+                setComments(jsonData.videoComments);
             }
             getData();
         },[])
@@ -48,13 +52,24 @@ function VideoPage(){
           {/* Comments Section */}
           <div className="video-comments">
             <h2>Comments</h2>
-            <div className="comment-list">
-              {/* Comments dynamically render here */}
+            <div className="comment-list"><br />
+            <h5>Add a comment</h5>
+            <div className="comment-box">
+                <input type="text" name="newComment" id="comment" /> 
+                <button className="cmt-btn">Send</button>
+                <br /> <br />
+            </div>
+              {comments.length==0 ? <div className="comment">
+                <span className="comment-author">
+                  <h4>No comments yet</h4>
+                </span>
+              </div> :
+              comments?.map((c)=>
               <div className="comment">
-                <span className="comment-author">John Doe</span>
-                <p className="comment-text">Great video! Learned a lot from this.</p>
+                <span className="comment-author">{}</span>
+                <p className="comment-text">{c.commentText}</p>
               </div>
-              {/* More comments */}
+              )}
             </div>
           </div>
         </div>
@@ -62,14 +77,16 @@ function VideoPage(){
         {/* Suggested Videos Section */}
         <div className="suggestions">
           <h2>Suggested Videos</h2>
+          {allvids.suggest?.map(vid=>
           <div className="suggested-video-thumbnails">
-            {/* You would dynamically load video tiles here */}
             <div className="video-tile">
-              <img src="thumbnail_url.jpg" alt="video thumbnail" />
-              <p>Suggested Video Title</p>
+              <img src={vid.thumbnailUrl} alt="video thumbnail"/>
+              <br /><br />
+              <p>{vid.title}</p>
+              <p style={{fontSize: '12px', color: 'grey'}}>{vid.views}-Views</p>
             </div>
-            {/* More video tiles */}
           </div>
+          )}
         </div>
       </div>
     </div>

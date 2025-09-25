@@ -24,8 +24,7 @@ function Home() {
         filSwitch(data)
     }
 
-    const fildata = filterd ? video.videos.filter(data=>data.category.includes(filset)) : video.videos;
-
+    const fildata = filterd ? video.videos?.filter(data=>data.category.includes(filset)) : video.videos;
     return(
 
         <div className="main-container">
