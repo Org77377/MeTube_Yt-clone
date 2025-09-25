@@ -163,21 +163,6 @@ export async function dislikeVideo(req, res){
     }
 }
 
-export async function view(req, res){
-    try{
-        const video = await Video.findById(req.params.videoId);
-        if(!video){
-            return res.status(404).json("video not found");
-        }
-        video.views += 1,
-        await video.save();
-        return res.status(201).json({msg :"View added!"});
-    }
-    catch(error){
-        return res.status(400).send("Error loading video");
-    }
-}
-
 export async function addComment(req, res){
     try{
         const userDetails = jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
