@@ -1,6 +1,7 @@
-.video-container{
+.video-container {
     margin-top: 5rem;
 }
+
 /* pages.css */
 
 /* General container */
@@ -8,8 +9,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    width: 100vw;
+    height: auto;
+    width: 80vw;
     background-color: #ffffff;
 }
 
@@ -19,7 +20,7 @@
     color: rgb(250, 193, 193);
     padding: 10px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 50%;
     box-sizing: border-box;
 }
@@ -41,7 +42,7 @@
 }
 
 /* Input styling */
-.signup-form input{
+.signup-form input {
     width: 100%;
     background-color: transparent;
     padding: 12px;
@@ -54,7 +55,7 @@
 
 /* Focus state for input fields */
 .signup-form input:focus {
-    border-color: #e83c3c; 
+    border-color: #e83c3c;
     outline: none;
 }
 
@@ -96,3 +97,115 @@
         font-size: 20px;
     }
 }
+
+/* ----------------signup ends here------------ */
+
+/* video-player styles ------------------ */
+.video-page-container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    margin: 100px auto;
+}
+
+.video-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.video-player {
+    flex: 3;
+    margin-right: 20px;
+}
+
+.video iframe {
+    width: 100%;
+    height: 500px;
+    aspect-ratio: 16/9;
+}
+
+.video-description {
+    margin-top: 20px;
+}
+
+.video-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.video-meta {
+    font-size: 0.9rem;
+    color: gray;
+}
+
+.description-text p {
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+.video-comments {
+    margin-top: 30px;
+}
+
+.comment-list {
+    margin-top: 10px;
+}
+
+.comment {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.comment-author {
+    font-weight: bold;
+}
+
+.comment-text {
+    margin-top: 5px;
+}
+
+.suggestions {
+    flex: 2;
+}
+
+.suggested-video-thumbnails {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.video-tile img {
+    width: 100%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .video-page-container {
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.video-content {
+    display: flex;
+}
+
+    .video iframe {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+    }
+
+    .video-content {
+        width: 80%;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .video-player {
+        margin-right: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+/* ------video page ends here--------- */

@@ -187,16 +187,20 @@ a{
   overflow-y: scroll;
 }
 
+.main-container::-webkit-scrollbar{
+  display: none;
+}
+
 .filter-btns {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
   justify-content: flex-start;
-  flex-wrap: wrap;
 }
 
 .filter {
   background-color: #f0f0f0;
+  width: max-content;
   border: none;
   padding: 8px 16px;
   font-size: 14px;
@@ -205,8 +209,8 @@ a{
   transition: background-color 0.3s ease;
 }
 
-.filter:hover {
-  background-color: #e0e0e0;
+.filter:focus{
+  background-color: #d3d3d3;
 }
 
 /* Content container styling */
@@ -234,6 +238,13 @@ a{
   width: 100%;
   height: auto;
   border-bottom: 1px solid #ddd;
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
 }
 
 /* Video Info section */
