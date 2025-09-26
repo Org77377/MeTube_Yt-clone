@@ -2,6 +2,8 @@ import { useState } from "react";
 import "./pages.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const SignUp = ()=>{
 
@@ -12,7 +14,6 @@ const SignUp = ()=>{
     const [logo, setLogo] = useState(null);
     const [imgUrl, setImage] = useState('');
     const [loader, setLoader] = useState(false);
-    const [signedUp, setSignUp] = useState(false);
 
     const uploadhandle = (e)=>{
         setImage(URL.createObjectURL(e.target.files[0]))
@@ -39,23 +40,21 @@ const SignUp = ()=>{
             }
         }).then((res)=>{
             setLoader(false);
-            console.log(res)
-            setSignUp(true);
+            toast.success("Signed Up")
+            toast.info("Redirecting to Login")
             setTimeout(()=>{
                 navigate("/login");
             },3000)
         }).catch((err)=>{
+            console.log(err)
+            toast.error(err.response.data.error,{hideProgressBar:true})
             setLoader(false);
-            console.log("error while signing up");
         })
     }
 
     return (
         <>
             <div className="signup-container">
-                {signedUp ? <div className="success">
-                    Signed-Up
-                </div>: null}
                 <form className="signup-form" onSubmit={signUp}>
                     <h1>Signup</h1>
                     Name: <input type="text" onChange={(e)=>setName(e.target.value)} name="name" required />
@@ -68,7 +67,8 @@ const SignUp = ()=>{
                     </div>
                     <button>{loader && <div className="loader">
                         <div className="load"></div>
-                    </div>}Signup</button>
+                    </div>}Signup</button><br />
+                    Already have an account - <Link to='/login' style={{textDecoration: 'underline'}}> Login </Link> or <Link to="/" style={{textDecoration: 'underline'}}>Use without account</Link>
                 </form>
             </div>
         </>

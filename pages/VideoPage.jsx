@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import "./pages.css";
-import { useParams } from "react-router-dom";
+import { data, useParams } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 
 function VideoPage(){
@@ -10,8 +11,8 @@ function VideoPage(){
     const[video, setVideo] = useState([]);
     const[comments, setComments] = useState([]);
     const[allvids, setAll] = useState([]);
-    const[addCmt, setNewcmt] = useState([]);
-    const[commentField, setCommentField] = useState('');
+    const[addCmt, setNewcmt] = useState('');
+    // const[commentField, setCommentField] = useState('');
 
         useEffect(()=>{
             async function getData(){
@@ -24,10 +25,23 @@ function VideoPage(){
             getData();
         },[])
 
+      const ctoken = sessionStorage.getItem('token')
       async function submitComment(){
-            const addCmt = await fetch(`http://localhost:3000/comment/${id.id}`, {method: 'POST'});
-            const cmtdata = await addCmt.json();
-            setNewcmt(cmtdata);
+            const formData = new FormData();
+            formData.append('comment', addCmt);
+
+            await axios.post(`http://localhost:3000/comment/${id.id}`, formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${ctoken}`,
+              }
+          }).then((res)=>{
+            toast(res.data.msg)
+            console.log(res.data);
+          }).catch((err)=>{
+            toast(err.response.data.msg)
+            console.log(err)
+          })
         }
 
         if(addCmt.msg == "Invalid Credentials"){
@@ -35,7 +49,7 @@ function VideoPage(){
         }
 
     return (
-    <div className="video-page-container">
+      <div className="video-page-container">
       {/* {console.log(addCmt)} */}
       <div className="video-content">
         {/* Main video section */}
@@ -67,11 +81,13 @@ function VideoPage(){
             <h2>Comments</h2>
             <div className="comment-list"><br />
             <h5>Add a comment</h5>
-            <div className="comment-box">
-                <input type="text" name="newComment" id="comment" onChange={(e)=>setCommentField(e.target.value)}/> 
+            {/* <div className="comment-box"> */}
+              <div className="comment-box">
+                <input type="text" name="newComment" id="comment" onChange={(e)=>setNewcmt(e.target.value)}/> 
                 <button className="cmt-btn" onClick={()=>submitComment()}>Send</button>
                 <br /> <br />
-            </div>
+              </div>
+            {/* </div> */}
               {comments.length==0 ? <div className="comment">
                 <span className="comment-author">
                   <h4>No comments yet</h4>

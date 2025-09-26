@@ -7,6 +7,7 @@ import VideoPage from "../pages/VideoPage.jsx";
 import Home from '../components/Home/Home.jsx';
 import SignUp from '../pages/SignUp.jsx';
 import SignIn from '../pages/Signin.jsx';
+import { ToastContainer } from 'react-toastify';
 
 const route = createBrowserRouter([
   {
@@ -40,5 +41,6 @@ createRoot(document.getElementById('root')).render(
         <App />
       </RouterProvider>
     </ContextProvider>
+    <ToastContainer theme="dark" autoClose="2000" position='top-center' hideProgressBar='true'/>
   </StrictMode>,
 )

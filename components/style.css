@@ -18,7 +18,7 @@ a{
 .navbar{
     background-color: white;
     height: 60px;
-    width: 100vw;
+    width: 100%;
     display: grid;
     grid-template-areas: "lside cent rside";
     align-content: center;
@@ -31,7 +31,19 @@ a{
     font-size: 1.4rem;
     z-index: 10;
 }
-
+.logout-btn{
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 1rem;  
+  color: rgb(23, 22, 22);
+  background-color: rgba(114, 114, 114, 0.196);
+  transition: all 0.3s ease;
+}
+.logout-btn:hover{
+  color: white;
+  background-color: rgb(229, 33, 52);
+}
 /* Logo Styling (Navbar) */
 .logo img{
     height: 2.5rem;
@@ -83,10 +95,73 @@ a{
     background-color: rgb(255, 184, 184);
     color:rgb(58, 58, 58);
 }
+.logout-sm{
+    display: flex;
+    align-items: center;
+    gap:20px;
+    font-size: 1.8rem;
+}
+.logout-btn{
+    padding:8px;
+    font-size: 1rem;
+}
+@media (max-width: 720px){
+  .navbar{
+    display: flex;
+    flex-direction: row;
+    padding-top: 10px;
+    padding: 40px 10px;
+    margin-bottom: 20px;
+    position: fixed;
+    top:0px;
+    font-size: 1rem;
+  }
+  .search-bar input{
+    width: 30vw;
+    border:1px solid rgb(222, 222, 222);
+    border-radius: 30px 0 0 30px;
+    font-size: 1rem;
+    padding:8px;
+    transition: all 0.2s;
+  }
+  .search-btn{
+    border-radius: 0 20px 20px 0;
+    width: 1rem;
+    border: none;
+  }
+  .search-bar input:focus{
+    width: 80vw;
+    margin: 40px 0px; 
+  }
+  .search-bar input ~ .search-btn{
+    background-color: transparent;
+    margin-left:20px;
+  }
+  .logout-sm{
+    display: flex;
+    align-items: center;
+    gap:10px;
+    font-size: 1rem;
+  }
+  .logout-btn{
+    padding:8px;
+    font-size: 0.6rem;
+  }
+  #logoNav{
+    display: flex;
+    gap: 5px;
+    margin:0px;
+    padding: 0px;
+  }
+  .logo img{
+    width: 40px;
+    height: 40px;
+  }
+}
 
 /* Side menu(Navbar) */
 .side-menu{
-    height:100vh;
+    height: 100%;
     width: 20%;
     margin-top: 4rem;
     box-sizing: border-box;
@@ -153,7 +228,7 @@ a{
 }
 .user-avatar{
     border: 1px solid blue;
-    padding: 5px 5px 0px 5px;
+    padding: 5px 5px 5px 5px;
     font-size: 1rem;
     border-radius: 30px;
     cursor: pointer
@@ -286,7 +361,9 @@ a{
 
 /* Responsive Design  */
 @media (max-width: 768px) {
-
+  .logo-txt{
+    display: none;
+  }
   .main-section{
     display: grid;
     grid-template-columns: auto;
@@ -296,7 +373,7 @@ a{
     display: none;
   }
   .side-menu {
-    height: auto;
+    height: 100vh;
     width: 40%;
   }
   .filter-btns {
@@ -313,7 +390,8 @@ a{
 }
 
 @media (max-width: 480px) {
-.side-menu {
+
+  .side-menu {
     height:100vh;
     width: 60%;
   }

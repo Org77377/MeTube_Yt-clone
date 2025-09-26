@@ -3,31 +3,55 @@ import Search from "./Search";
 import UserMenu from "./UserMenu";
 import SideMenu from "./SideMenu";
 import SideMenuStatic from "./SideMenuStatic";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SidebarBtn } from "../../context/SidebarContext";
-import Home from "../Home/Home";
-
+import { Link } from "react-router-dom";
 import "../style.css";
+import { toast } from "react-toastify";
 
 function Navbar() {
+    const { sidebtn } = useContext(SidebarBtn);
+    const [session, setSession] = useState(sessionStorage.getItem("token"));
 
-    const {sidebtn} = useContext(SidebarBtn);
+    function LogOut() {
+        setTimeout(() => {
+            setSession(sessionStorage.setItem("token", ""));
+            toast.info("You are logged out", {
+                hideProgressBar: true,
+                position: "top-right",
+            });
+        }, 300);
+    }
 
     return (
         <>
             <div className="navbar">
                 <div className="l-side">
-                    <Logo/>
+                    <Logo />
                 </div>
                 <div className="center">
-                    <Search/>
+                    <Search />
                 </div>
                 <div className="r-side">
-                    <UserMenu/>
+                    {!session == "" ? (
+                        <Link to="/">
+                            <div className="logout-sm">
+                                <div className="upload">
+                                    <i class="bi bi-camera-video"></i>
+                                </div>
+                                <i class="bi bi-person-circle"></i>
+                                <button onClick={() => LogOut()} className="logout-btn">
+                                    Logout
+                                </button>
+                            </div>
+                        </Link>
+                    ) : (
+                        <UserMenu />
+                    )}
                 </div>
             </div>
-            <SideMenuStatic/>
-            {sidebtn?<SideMenu/>:''}
+            <SideMenuStatic />
+            {sidebtn ? <SideMenu /> : ""}
         </>
     );
 }

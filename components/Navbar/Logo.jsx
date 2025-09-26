@@ -15,7 +15,7 @@ function Logo(){
                 </li>
                 <li className="logo">
                     <img src="/main_logo.svg" alt="app_logo" />
-                    <small> <b><Link to={'/'}>Me Tube</Link></b></small>
+                    <small className="logo-txt"> <b><Link to={'/'}>Me Tube</Link></b></small>
                 </li>
             </div>
             
