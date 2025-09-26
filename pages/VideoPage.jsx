@@ -6,10 +6,12 @@ import axios from "axios";
 
 function VideoPage(){
 
-    const id = useParams()
-    const[video, setVideo] = useState([])
-    const[comments, setComments] = useState([])
-    const[allvids, setAll] = useState([])
+    const id = useParams();
+    const[video, setVideo] = useState([]);
+    const[comments, setComments] = useState([]);
+    const[allvids, setAll] = useState([]);
+    const[addCmt, setNewcmt] = useState([]);
+    const[commentField, setCommentField] = useState('');
 
         useEffect(()=>{
             async function getData(){
@@ -22,8 +24,19 @@ function VideoPage(){
             getData();
         },[])
 
+      async function submitComment(){
+            const addCmt = await fetch(`http://localhost:3000/comment/${id.id}`, {method: 'POST'});
+            const cmtdata = await addCmt.json();
+            setNewcmt(cmtdata);
+        }
+
+        if(addCmt.msg == "Invalid Credentials"){
+          console.log("please login");
+        }
+
     return (
     <div className="video-page-container">
+      {/* {console.log(addCmt)} */}
       <div className="video-content">
         {/* Main video section */}
         <div className="video-player">
@@ -55,8 +68,8 @@ function VideoPage(){
             <div className="comment-list"><br />
             <h5>Add a comment</h5>
             <div className="comment-box">
-                <input type="text" name="newComment" id="comment" /> 
-                <button className="cmt-btn">Send</button>
+                <input type="text" name="newComment" id="comment" onChange={(e)=>setCommentField(e.target.value)}/> 
+                <button className="cmt-btn" onClick={()=>submitComment()}>Send</button>
                 <br /> <br />
             </div>
               {comments.length==0 ? <div className="comment">

@@ -14,7 +14,8 @@ body {
     justify-content: center;
     align-items: center;
     height: auto;
-    width: 80vw;
+    width: 100vw;
+    padding:40px;
     background-color: #ffffff;
 }
 
@@ -22,10 +23,10 @@ body {
 .signup-form {
     background-color: rgba(14, 1, 1, 0.959);
     color: rgb(250, 193, 193);
-    padding: 10px;
-    border-radius: 8px;
+    padding: 60px;
+    border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 50%;
+    width: 60%;
     box-sizing: border-box;
 }
 
@@ -49,6 +50,7 @@ body {
 .signup-form input {
     width: 100%;
     background-color: transparent;
+    color: white;
     padding: 12px;
     font-size: 14px;
     border: 1px solid #ccc;
@@ -72,6 +74,10 @@ body {
     color: white;
     border: none;
     border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
     cursor: pointer;
     margin-top: 12px;
     transition: background-color 0.3s;
@@ -86,15 +92,23 @@ body {
 .signup-form input[type="file"] {
     padding: 10px;
     border: 1px solid #d21f1f;
-    font-size: 14px;
+    font-size: 18px;
     background-color: transparent;
 }
 
 /* Responsive design: For smaller screens */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 720px) {
+    .signup-container{
+        background-color: #2f2e2eea;
+        height: 100vh;
+    }
+    .signup-form{
+        margin: 50px 0px;
+        background-color: #171616;
+    }
     .signup-form {
-        padding: 20px;
-        width: 80%;
+        padding: 10px;
+        width: 100%;
     }
 
     .signup-form h1 {
@@ -237,9 +251,6 @@ body {
         border-radius: 10px;
         background-color: #b01926;
     }
-    .video-comments{
-        
-    }
 
     .video-player{
         display: flex;
@@ -311,3 +322,65 @@ body {
 }
 
 /* ------video page ends here--------- */
+
+    .preview-image{
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: red;
+        object-fit: cover;
+    }
+    .preview-container{
+        display: flex;
+        justify-content: center;
+    }
+
+    .load{
+        background-color:white;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        animation: 1s load linear infinite both;
+    }
+    @keyframes load {
+        0%{
+            transform:scale(0.5);
+            opacity: 0.8;
+        }
+        50%{
+            transform:scale(1);
+            opacity: 1;
+        }
+        100%{
+            transform:scale(1.2);
+            opacity: 0.3;
+        }
+    }
+    .success{
+        background-color: black;
+        border-radius: 10px;
+        width: fit-content;
+        color: rgb(45, 245, 45);
+        padding: 20px;
+        position: fixed;
+        top: 20px;
+        right: 10px;
+        animation: 4s linear 1 bounce;
+    }
+    @keyframes bounce{
+        0%{
+            transform: translateX(500px);
+            opacity: 0;
+        }
+        40%{
+            transform: scale(1);
+            transform: translateX(0px);
+        }
+        70%{
+            transform: scale(1);
+            transform: translateX(0px);
+        }
+        100%{
+            transform: translateX(300px);
+        }
+    }
