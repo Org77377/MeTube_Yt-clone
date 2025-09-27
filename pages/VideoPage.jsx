@@ -27,6 +27,7 @@ function VideoPage() {
   }, [])
 
   const ctoken = sessionStorage.getItem('token')
+
   async function submitComment() {
     const formData = new FormData();
     formData.append('comment', addCmt);
@@ -38,7 +39,6 @@ function VideoPage() {
       }
     }).then((res) => {
       toast(res.data.msg)
-      console.log(res.data);
     }).catch((err) => {
       toast.warn(err.response.data.msg);
     })
@@ -48,22 +48,33 @@ function VideoPage() {
     toast("edit");
   }
   const channelInfo = allvids.channels?.filter((d) => d.owner.includes(allvids.data.uploader))[0];
-
+  // console.log(channelInfo)
   async function subscribe() {
-    console.log(ctoken)
-    await axios.put(`http://localhost:3000/channel/subscribe/${channelInfo?._id}`, {
+    await axios.put(`http://localhost:3000/channel/subscribe/${channelInfo._id}`, null, {
       headers: {
-        'Content-Type': 'multipart/form-data',
-        'token': ctoken,
-        'Authorization': `Bearer ${ctoken}`,
-      }
-    })
-      .then((res) => {
+                Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            }
+    }).then((res) => {
+      toast.
         console.log(res)
       })
       .catch((error) => {
-        toast.error(error.response.data.msg);
+        toast.info(error.response.data.msg)
+        console.log(error)
       });
+  }
+
+  async function AddLike() {
+    await axios.put(`http://localhost:3000/video/like/${id.id}`, null,{
+      headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                "Name": 'Omkarg',
+            }
+    }).then((res) => {
+      toast(res.data.msg)
+    }).catch((err) => {
+      console.log(err);
+    })
   }
 
 
@@ -85,6 +96,10 @@ function VideoPage() {
           {/* Video description */}
           <div className="video-description">
             <h1 className="video-title">{video.title}</h1>
+            <span className="reactions">
+              <i onClick={AddLike} className="bi bi-hand-thumbs-up-fill">{video.likes}</i>
+              <i className="bi bi-hand-thumbs-down-fill">{video.dislikes}</i>
+            </span>
             <div className="video-meta">
               <span className="views">{video.views} Views</span> • <span className="publish-date">{
                 Math.floor((Date.now() - new Date(video.uploadDate).getTime()) / (1000 * 60 * 60)) > 24

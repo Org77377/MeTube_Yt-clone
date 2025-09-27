@@ -13,10 +13,12 @@ function Logo(){
                 <li className="icon" onClick={()=>switchSidebtn()}>
                     <i className="bi bi-list"></i>
                 </li>
+                <Link to={'/'}>
                 <li className="logo">
                     <img src="/main_logo.svg" alt="app_logo" />
-                    <small className="logo-txt"> <b><Link to={'/'}>MeTube</Link></b></small>
+                    <small className="logo-txt"> <b>MeTube</b></small>
                 </li>
+                </Link>
             </div>
             
         </>

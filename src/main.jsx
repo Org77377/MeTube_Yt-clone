@@ -9,6 +9,7 @@ import SignUp from '../pages/SignUp.jsx';
 import SignIn from '../pages/Signin.jsx';
 import { Channel } from '../pages/channel.jsx';
 import { ToastContainer } from 'react-toastify';
+import VideoUpload from '../pages/VideoUpload.jsx';
 
 const route = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const route = createBrowserRouter([
       {
         path: "/channel/:id",
         element: <Channel />,
+      },
+      {
+        path: "/upload",
+        element: <VideoUpload/>, 
       },
     ]
   },

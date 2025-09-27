@@ -47,7 +47,7 @@ body {
 }
 
 /* Input styling */
-.signup-form input {
+.signup-form input, textarea {
     width: 100%;
     background-color: transparent;
     color: white;
@@ -328,6 +328,38 @@ body {
     border-bottom: 2px solid rgb(25, 25, 25);
 }
 
+/* like button  */
+.reactions{
+    display: flex;
+    gap: 20px;
+    font-size: 1.6rem;
+}
+.reactions i{
+    transition: all 0.1s ease;
+}
+.reactions i:active{
+    animation: 0.2s linear 1 react;
+}
+@keyframes react {
+    0%{
+        color: rgb(35, 35, 35);
+        scale: 1;
+    }
+    40%{
+        color: rgb(227, 30, 30);
+        scale: 1.1;
+        transform: rotate(10deg);
+    }
+    60%{
+        color: rgb(227, 30, 30);
+        scale: 1.1;
+        transform: rotate(20deg);
+    }
+    100%{
+        color: rgb(35, 35, 35);
+        scale: 1;
+    }
+}
 /* ------video page ends here--------- */
 
     .preview-image{
@@ -429,7 +461,7 @@ body {
     display: grid;
     grid-template-columns: 30% 70%;
     gap: 10px;
-    /* background-color:#171717; */
+    
    }
    .profile-side{
     background-color: transparent;
@@ -447,6 +479,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 8px;
+    overflow-y:scroll;  
    }
    .video{
     background-color:rgba(195, 195, 195, 0.256);
@@ -486,7 +519,7 @@ body {
    @media (max-width: 1080px){
     .channel-container{
         width: 90vw;
-        height: auto;
+        height: 100%;
         padding: 10px;
         box-sizing: border-box;
         display: flex;
@@ -498,4 +531,46 @@ body {
         width: 100%;
         padding: 10px;
     }
+    .channel-create{
+        height: 100vh;
+    }
+   }
+
+   /* video upload page styling */
+   .video-upload{
+    margin-top: 80px;
+   }
+
+   .channel-create{
+    height: 100%;
+    background-color: #2b2b2b;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+   }
+   .ch-form{
+       width: 90%;
+       display: flex;
+       justify-content: center;
+       height: max-content;
+   }
+   .signup-form hr{
+    width: 20%;
+    opacity: 0.8;
+    border-top: 8px dotted rgb(72, 72, 72);
+    margin-left: 50%;
+    transform: translateX(-50%);
+   }
+   .signup-form h3{
+    text-align: center;
+   }
+   .preview-video{
+    width: 40%;
+    border: 1px solid white;
+   }
+   .th-preview-image{
+    width: 40%;
+    aspect-ratio: 16/9;
+    object-fit: contain;
+    border: 1px solid white;
    }

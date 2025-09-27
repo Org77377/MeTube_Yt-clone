@@ -14,7 +14,6 @@ export function Channel() {
         async function getData() {
             await axios.get(`http://localhost:3000/channel/${id.id}`)
                 .then((res) => {
-                    console.log(res);
                     setData(res.data);
                 })
                 .catch((err) => {

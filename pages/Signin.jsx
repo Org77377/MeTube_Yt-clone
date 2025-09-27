@@ -10,7 +10,7 @@ const SignIn = ()=>{
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [loader, setLoader] = useState(false);
-    const [signedUp, setSignUp] = useState(false);
+    // const [signedUp, setSignUp] = useState(false);
 
     const navigate = useNavigate();
 
@@ -42,6 +42,7 @@ const SignIn = ()=>{
           sessionStorage.setItem("token", res.data.token);
         }).catch((err)=>{
             setLoader(false);
+            toast.error(err.message)
             toast.error(err.response.data.msg, {hideProgressBar: true})
         })
     }
@@ -55,7 +56,7 @@ const SignIn = ()=>{
                     Password<input type="password" onChange={(e)=>setPass(e.target.value)} name="password" required />
                     <button>{loader && <div className="loader">
                         <div className="load"></div>
-                    </div>}Login</button>
+                    </div>}{loader ? "Logging in.." : "Login"}</button>
                     <br />
                     New User? - <Link to={"/signup"}> Create an account </Link>
                 </form>

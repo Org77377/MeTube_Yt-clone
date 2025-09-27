@@ -34,17 +34,17 @@ function Navbar() {
                 </div>
                 <div className="r-side">
                     {!session == "" ? (
-                        <Link to="/">
-                            <div className="logout-sm">
-                                <div className="upload">
-                                    <i class="bi bi-camera-video"></i>
-                                </div>
+                        <div className="logout-sm">
+                                <Link to="/upload">
+                                    <div className="upload">
+                                        <i class="bi bi-camera-video"></i>
+                                    </div>
+                                </Link>
                                 <i class="bi bi-person-circle"></i>
                                 <button onClick={() => LogOut()} className="logout-btn">
                                     Logout
                                 </button>
                             </div>
-                        </Link>
                     ) : (
                         <UserMenu />
                     )}
