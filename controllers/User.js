@@ -82,24 +82,23 @@ export async function HandleSubscribe(req, res){
     const userData = await User.findById(user._id)
     const userChannel = await channel.findById(req.params.channelId)
         if(!userChannel){
-            return res.status(500).json("Channel doesnt exist")
+            return res.status(404).json({msg : "Channel doesnt exist"})
         }
         if(userChannel.owner.equals(userData._id)){
-            return res.status(400).send("feature not available for you")
+            return res.status(503).json({msg : "feature not available for you"})
         }
         if(userChannel.subscribers.includes(userData._id)){
-            return res.status(400).send("Already Subscribed");
+            return res.status(300).json({msg : "Already Subscribed"});
         }
         userChannel.subscribers.push(userData._id);
         userChannel.subs += 1;
         userData.subscribed.push(req.params.channelId);
         userChannel.save();
         userData.save();
-        return res.status(201).send("Subscribed");
+        return res.status(201).json({msg: "Subscribed"});
     }
     catch(err){
-        console.log(req.headers)
-       return res.status(500).json({error : "Server Error"});
+       return res.status(500).json({msg : "Server Error"});
     }
 }
 
@@ -126,5 +125,18 @@ export async function HandleUnSubscribe(req, res){
     }
     catch(err){
        return res.status(500).json({error : "Server Error"});
+    }
+}
+
+export async function getUser(req, res){
+    try{
+        const authCheck = jwt.verify(req.headers.authorization.split(" ")[0], process.env.JWT_SECRET);
+        const userData = await User.findById(authCheck._id);
+        if(!authCheck){
+            return res.status(504).json({msg: "Please login"});
+        }
+        return res.status(201).json({msg: "working fine", data: userData});
+    }catch(err){
+        return res.status(501).json({msg: "Please login"})
     }
 }

@@ -12,12 +12,13 @@ cloudinary.config({
 
 export async function channelCreate(req, res){
     try{
+        // console.loog(req.headers)
         const user = await jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
         const getUser = await User.findById(user._id);
         if(getUser.channel.isCreated == false){
             const cloudData = await cloudinary.uploader.upload(req.files.banner.tempFilePath);
             const newData = await channel.create({
-                channelName: req.body.chanelname,
+                channelName: req.body.channelname,
                 owner: user._id,
                 description: req.body.description,
                 channelBanner: cloudData.secure_url,
@@ -26,10 +27,13 @@ export async function channelCreate(req, res){
             await User.findByIdAndUpdate(user._id ,{$set: {"channel.channelName": req.body.chanelname, "channel.isCreated": true}},{new: true})
             return res.json({newChannel: newData});
         }else{
-            return res.status(501).send("Channel Already Exist");
+            return res.status(501).json({msg : "Channel Already Exist"});
         }
-    }catch(err){
-        console.log(err);
+    }catch(error){
+        // console.log(req.headers)
+        console.log(req.files)
+        console.log(req.body)
+        return res.status(504).json({msg : error})
     }
 }
 

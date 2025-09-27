@@ -118,21 +118,21 @@ export async function likeVideo(req, res){
     try{
         const userDetails = jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
         if(userDetails == null){
-            return res.send("Please Login")
+            return res.json({msg : "Please Login"})
         }
         const video = await Video.findById(req.params.videoId);
         if(video == null){
-            return res.json("No video found");
+            return res.status(404).json("No video found");
         }else{
         if(video.likedBy.includes(userDetails._id)){
-            return res.json({Warning: "already liked"})
+            return res.json({msg: "already liked"})
         }
         video.likedBy.push(userDetails._id)
         video.dislikes > 0 ? video.dislikes -= 1 : '' ;
         video.likes += 1;
         (video.viewedBy.includes(userDetails._id)) ? '' : video.viewedBy.push(userDetails._id) ;
         await video.save()
-        return res.json({msg: "Video Liked"});
+        return res.status(201).json({msg: "Video Liked"});
     }
     }catch(err){
         return res.status(500).json({mssg: "Something bad happened"})
