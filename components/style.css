@@ -293,6 +293,7 @@ a{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
+  animation : 1s linear 1 both reveal;
   padding: 20px 0px;
 }
 
@@ -302,9 +303,21 @@ a{
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  height: 300px;
+  animation : 1s linear 1 both reveal;
   transition: all 0.3s ease;
 }
-
+@keyframes reveal {
+  0%{
+    filter: blur(5px);
+  }
+  50%{
+    filter: blur(10px);
+  }
+  100%{
+    filter: blur(0px);
+  }
+}
 .content-box:hover {
   transform: translateY(-4px);
 }

@@ -2,45 +2,50 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import { ContextProvider } from '../context/SidebarContext.jsx'
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import VideoPage from "../pages/VideoPage.jsx";
 import Home from '../components/Home/Home.jsx';
 import SignUp from '../pages/SignUp.jsx';
 import SignIn from '../pages/Signin.jsx';
+import { Channel } from '../pages/channel.jsx';
 import { ToastContainer } from 'react-toastify';
 
 const route = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <App />,
     children: [
       {
         path: '/',
-        element: <Home/>,
+        element: <Home />,
       },
       {
-        path:'/video/:id',
-        element:<VideoPage/>  
+        path: '/video/:id',
+        element: <VideoPage />
+      },
+      {
+        path: "/channel/:id",
+        element: <Channel />,
       },
     ]
   },
   {
-    path:'/signup',
-    element: <SignUp/>,
+    path: '/signup',
+    element: <SignUp />,
   },
   {
-    path:'/login',
-    element: <SignIn/>,
+    path: '/login',
+    element: <SignIn />,
   },
 ])
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // <StrictMode>
     <ContextProvider>
       <RouterProvider router={route}>
         <App />
       </RouterProvider>
+      <ToastContainer theme="dark" autoClose="2000" position='top-center' hideProgressBar='true' />
     </ContextProvider>
-    <ToastContainer theme="dark" autoClose="2000" position='top-center' hideProgressBar='true'/>
-  </StrictMode>,
+  /* </StrictMode>, */
 )

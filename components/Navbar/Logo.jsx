@@ -11,11 +11,11 @@ function Logo(){
         <>
             <div id='logoNav'>
                 <li className="icon" onClick={()=>switchSidebtn()}>
-                    <i class="bi bi-list"></i>
+                    <i className="bi bi-list"></i>
                 </li>
                 <li className="logo">
                     <img src="/main_logo.svg" alt="app_logo" />
-                    <small className="logo-txt"> <b><Link to={'/'}>Me Tube</Link></b></small>
+                    <small className="logo-txt"> <b><Link to={'/'}>MeTube</Link></b></small>
                 </li>
             </div>
             
