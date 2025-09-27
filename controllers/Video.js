@@ -170,16 +170,17 @@ export async function addComment(req, res){
         if(!video){
             return res.status(404).json({msg: "Video not found"});
         }
-        if(!req.body){
-            return res.status(500).json({msg: "please add a comment"});
+        if(!req.body.comment){
+            return res.status(400).json({msg: "Comment cannot be empty!"});
         }
         const newComment = await Comments.create({
             by: userDetails._id,
             videoId: video._id,
             commentText: req.body.comment,
         })
+
         await newComment.save();
-        return res.status(200).send("comment added");
+        return res.status(200).json({"msg": "comment added"});
     }catch(error){
         res.status(502).json({msg : "Error while posting your comment"})
     }
@@ -212,10 +213,10 @@ export async function getVideos(req, res){
         const uploader = await User.find({});
         const chanInfo = await channel.find({})
         res.status(200).json(
-            { videos: allVids, uploader : uploader, chInfo: chanInfo}
+            { videos: allVids, uploader : uploader, chInfo: chanInfo, msg:"You are now connected"}
         )
     }
     catch(err){
-        res.status(500).send("Error while fetcing videos")
+        res.status(500).json({msg:"Seems like you are offline"})
     }
 }

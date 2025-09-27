@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken"
 import { v2 as cloudinary } from "cloudinary";
 import User from "../models/Users.js";
 import channel from "../models/Channel.js";
+import Video from "../models/Video.js";
 
 cloudinary.config({
     cloud_name: process.env.API_NAME, 
@@ -56,3 +57,18 @@ export async function deleteChannel(req, res){
         return res.status(500).json({msg: "Error Happened"})
     }
 }
+
+export async function viewChannel(req, res){
+    try{
+        const chID = req.params.id;
+        const channelInfo = await channel.findById(chID);
+        const vids = await Video.find({uploader: channelInfo.owner});
+        if(!channelInfo){
+            return res.status(404).json({msg : "channel not found"});
+        }
+        return res.status(201).json({data : channelInfo, vidData: vids});
+    }
+    catch(err){
+        return res.status(404).json({msg: "Error occured at servers end"});
+    }
+} 

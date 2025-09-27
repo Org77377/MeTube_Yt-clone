@@ -15,22 +15,20 @@ dotenv.config();
 const app = express();
 const port = 3000;
 
-async function MongoConnect() {
+async function MongoConnect(){
     try{
         const db_conn = await mongoose.connect(process.env.MONGO_URL)
         console.log("Database Connected")
     }
     catch(err){
-        console.log("Something bad happend")
+        console.log("You are offline")
     }
 }
 
 MongoConnect();
 
 
-app.use(cors(
-    {credentials: true}
-))
+app.use(cors());
 app.use(bodyParser.json());
 app.use(fileUpload({
     useTempFiles: true,

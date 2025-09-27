@@ -17,10 +17,11 @@ export async function signUp(req, res){
     try{
         const userchk = await User.find({email: req.body.email});
         if(userchk.length > 0){
-            res.status(500).json({"error": "Email already exist"});
+            res.status(502).json({"error": "Email exist, please login!"});
         }
         const {name, email, username} = req.body;
         const hashpass = await bcrypt.hash(req.body.password, 10);
+
         const imgUpload = await cloudinary.uploader.upload(req.files.logo.tempFilePath);
         
         const newUsr = await User.create({
@@ -32,11 +33,11 @@ export async function signUp(req, res){
             logoId: imgUpload.public_id,
         })
         const user = await newUsr.save();
-        res.status(200).send("Signed Up", email);
+        res.status(200).json({status: "Signed Up", data: user});
 
     }catch(error){
         console.log(error);
-        res.status(500).send("Something wrong happend!");
+        res.status(403).json({"error": "Server is having bad time please try after some time!"});
     }
 }
 
@@ -47,11 +48,15 @@ export async function logIn(req, res){
         const email = req.body.email;
         const userFind = await User.find({email: email});
         if(userFind.length == 0){
-            return res.status(400).json({"msg": "User not found"});
+            return res.status(400).json({"msg": "Email doesn't exist"});
         }
         // if exist create jwt token
         const mainUsr = await User.findById(userFind[0]._id);
         const isValid = await bcrypt.compare(req.body.password, mainUsr.password);
+        const isLogged = await (req.headers.authorization);
+        if(!isLogged == false){
+            return res.status(500).json({"msg": "Already Logged In"})
+        }
         if(!isValid){
             return res.status(400).json({"msg": "Password is not valid"})
         }
@@ -63,14 +68,16 @@ export async function logIn(req, res){
             logoId: mainUsr.logoId,
         }, process.env.JWT_SECRET, {expiresIn: '10d'});
 
-        return res.status(200).json({status: "Logged In", token: token});
+        return res.status(200).json({"msg": "Logged In", token: token});
     }catch(error){
-        res.status(500).send("something went wrong");
+        console.log(error)
+        res.status(502).json({err: error});
     }
 }
 
 export async function HandleSubscribe(req, res){
     try{
+        console.log(req.headers)
     const user = jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
     const userData = await User.findById(user._id)
     const userChannel = await channel.findById(req.params.channelId)
@@ -91,6 +98,7 @@ export async function HandleSubscribe(req, res){
         return res.status(201).send("Subscribed");
     }
     catch(err){
+        console.log(req.headers)
        return res.status(500).json({error : "Server Error"});
     }
 }
