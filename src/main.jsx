@@ -11,7 +11,7 @@ import { Channel } from '../pages/channel.jsx';
 import { ToastContainer } from 'react-toastify';
 import VideoUpload from '../pages/VideoUpload.jsx';
 import Dashboard from '../pages/Dashboard.jsx';
-import EditVideo from '../pages/DeleteChannel.jsx';
+import EditVideo from '../pages/EditVideo.jsx';
 
 const route = createBrowserRouter([
   {
@@ -37,13 +37,11 @@ const route = createBrowserRouter([
       {
         path:"/dashboard",
         element: <Dashboard/>,
-        children: [
+      },
       {
-        path: "edit",
+        path: "/editvideo",
         element: <EditVideo/>,
       }
-    ]
-  },
     ]
   },
   {

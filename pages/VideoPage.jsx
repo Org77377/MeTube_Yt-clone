@@ -16,18 +16,19 @@ function VideoPage() {
 
   useEffect(() => {
     async function getData() {
-      await axios.put(`http://localhost:3000/view/${id.id}`, null, {
+      await axios.put(`http://localhost:3000/view/${id.id}viewedBy`, null, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         }
       }).then((res) => {
-        // console.log(res);
+        console.log(res);
       }).catch((err) => {
+        console.log(err)
         toast.error(err.response.data);
       })
     }
     getData();
-  }, [id])
+  }, [])
 
   useEffect(() => {
     async function getData() {
