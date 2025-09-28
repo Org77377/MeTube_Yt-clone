@@ -2,6 +2,7 @@ import axios from "axios";
 import './pages.css'
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { replace, useNavigate } from "react-router-dom";
 
 function VideoUpload() {
 
@@ -11,7 +12,7 @@ function VideoUpload() {
     const [banner, setBanner] = useState(null)
     const [imgUrl, setImg] = useState('')
     const [loader, setLoader] = useState(false);
-    
+    const navigate = useNavigate();
     // video upload 
     const [video, setVideo] = useState(null)
     const [thumbnail, setThumb] = useState(null)
@@ -25,18 +26,16 @@ function VideoUpload() {
         async function userData() {
             await axios.get("http://localhost:3000/user/", {
                 headers: {
-                    Authorization: sessionStorage.getItem('token'),
+                    Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 }
             })
                 .then((res) => {
-                    // console.log(res);
                     setData(res.data.data);
                     if (res.data.data.channel?.isCreated == false) {
                         toast.error("Please create a channel first");
                     }
                 }).catch((err) => {
                     toast.error(err.response.data.msg)
-                    // console.log(err);
                 })
         }
         userData();
@@ -71,7 +70,9 @@ function VideoUpload() {
             }
         }).then((res) => {
             setLoader(false)
+            // console.log(res)
             toast.success(res.data.msg)
+            navigate('/dashboard', {replace:'true'});
         }).catch((err) => {
             setLoader(false)
             toast.error(err.response.data.msg)

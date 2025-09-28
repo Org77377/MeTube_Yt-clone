@@ -178,9 +178,12 @@ body {
     padding: 10px;
     border-bottom: 1px solid #ccc;
     display: flex;
-    text-align: right;
+    text-align: left;
     justify-content: space-between;
     align-items: center;
+}
+.username{
+    font-size: 0.6rem;
 }
 
 .comment-author {
@@ -189,6 +192,7 @@ body {
 
 .comment-text {
     margin-top: 5px;
+    text-align: right;
 }
 
 .suggestions {
@@ -340,6 +344,9 @@ body {
 .reactions i:active{
     animation: 0.2s linear 1 react;
 }
+.sub-button{
+    cursor: pointer;
+}
 @keyframes react {
     0%{
         color: rgb(35, 35, 35);
@@ -425,6 +432,25 @@ body {
     }
 
     /* comment menu edit and delete option */
+    .comment{
+        position: relative;
+    }
+    .opt-menu{
+        display: none;
+        position: absolute;
+        top:10px;
+        right: 30px;
+    }
+    .opt-menu button{
+        color: #fff5f5;
+        background-color: #cb2f3c;
+        width: max-content;
+        padding: 5px 10px;
+        margin: 10px;
+        border: none;
+        border-radius: 10px;
+    }
+
     /* Subscribe button */
     .profile-details{
     display: flex;
@@ -471,10 +497,15 @@ body {
     color: #000000;
     display: flex;
     flex-direction: column;
+    width: 100%;
     align-items: center;
     text-align: center;
     gap: 10px;
    }
+   .profile-side li{
+    width: 90%;
+    word-wrap: break-word;
+}
    .video-side{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -573,4 +604,51 @@ body {
     aspect-ratio: 16/9;
     object-fit: contain;
     border: 1px solid white;
+   } 
+   .channel-info p{
+    line-height: 1rem;
+    font-size: 1rem;
+   }
+   .channel-info{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    cursor: text;
+    margin: 0px 20px;
+   }
+   .sub-icon{
+    background-color: #1c1c1c;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+   }
+   .sub-channels{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0px 20px;
+    width: 100%;
+   }
+   .video-liked-cont{
+    display: flex;
+    flex-direction: column;
+    margin: 10px
+   }
+   .video-liked-cont img{
+    width: 100%;
+    aspect-ratio: 16/9;
+    margin: 10px 0px;
+    border-radius: 10px;
+   }
+   .ch-del{
+    border: none;
+    background-color: #c12835;
+    padding:10px;
+    color: white;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+   }
+   .ch-del:hover{
+    background-color:rgb(227, 38, 38);
+    padding-right: 20px;
    }

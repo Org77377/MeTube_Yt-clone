@@ -43,7 +43,7 @@ export function Channel() {
                             <img className="channel-thumb" src={d.thumbnailUrl} alt="video-thumbnail" />
                             <div className="ch-video-details">
                                 <li className="ch-title">{d.title}</li>
-                                <li>{d.views} views •&nbsp;
+                                <li>{d.viewedBy?.length} views •&nbsp;
                                 {
                                     Math.floor((Date.now() - new Date(d.uploadDate).getTime()) / (1000 * 60 * 60)) > 24
                                     ? `${Math.floor((Date.now() - new Date(d.uploadDate).getTime()) / (1000 * 60 * 60 * 24))} days ago`

@@ -42,7 +42,9 @@ function Navbar() {
                                         <i className="bi bi-camera-video"></i>
                                     </div>
                                 </Link>
-                                <i className="bi bi-person-circle"></i>
+                                <Link to="/dashboard">
+                                    <i className="bi bi-person-circle"></i>
+                                </Link>
                                 <button onClick={() => LogOut()} className="logout-btn">
                                     Logout
                                 </button>

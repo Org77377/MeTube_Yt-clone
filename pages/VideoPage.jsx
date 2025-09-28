@@ -18,7 +18,7 @@ function VideoPage() {
     async function getData() {
       await axios.put(`http://localhost:3000/view/${id.id}`, null, {
         headers: {
-          Authorization: sessionStorage.getItem("token"),
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         }
       }).then((res) => {
         // console.log(res);
@@ -33,10 +33,9 @@ function VideoPage() {
     async function getData() {
       await axios.get(`http://localhost:3000/view/${id.id}`, {
         headers: {
-          Authorization: sessionStorage.getItem("token"),
+          Authorization: `${sessionStorage.getItem("token")}`,
         }
       }).then((res) => {
-        // console.log(res);
         setVideo(res.data.data);
         res.data.data.views -= 1;
         setAll(res.data)
@@ -53,7 +52,7 @@ function VideoPage() {
   async function submitComment() {
     const formData = new FormData();
     formData.append('comment', addCmt);
-
+    
     await axios.post(`http://localhost:3000/comment/${id.id}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -65,11 +64,14 @@ function VideoPage() {
     }).catch((err) => {
       toast.warn(err.response.data.msg);
     })
+
   }
 
   function editMenu() {
-    toast("edit");
+    const edit =document.querySelector(".opt-menu");
+    edit.style.display = edit.style.display== 'block' ? 'none' : 'block' ;
   }
+
   const channelInfo = allvids.channels?.filter((d) => d.owner.includes(allvids.data.uploader))[0];
   const isSub = !channelInfo?.subscribers?.includes(allvids.luser ? allvids?.luser._id : null);
 
@@ -120,6 +122,16 @@ function VideoPage() {
     })
   }
 
+  function handleEdit(){
+
+  }
+  function handleEdit(id){
+    // useEffect(()=>{
+    //   axios.delete(``)
+    // },[])
+    toast(id)
+  }
+
   return (
     <div className="video-page-container">
       {/* {console.log(addCmt)} */}
@@ -154,7 +166,7 @@ function VideoPage() {
                 <img className="ch-preview-image" src={channelInfo?.channelBanner} alt="" />
               </div>
               <div className="sub-button" onClick={subscribe}>
-                {isSub ? "Subscribed " : "Subscribe "}<small>{channelInfo?.subs}</small>
+                {!isSub ? "Subscribed " : "Subscribe "}<small>{channelInfo?.subs}</small>
               </div>
             </div>
             <div className="description-text">
@@ -171,7 +183,7 @@ function VideoPage() {
               <h5>Add a comment</h5>
               {/* <div className="comment-box"> */}
               <div className="comment-box">
-                <input type="text" name="newComment" id="comment" onChange={(e) => setNewcmt(e.target.value)} />
+                <input type="text" value={addCmt} name="newComment" id="comment" onChange={(e) => setNewcmt(e.target.value)} />
                 <button className="cmt-btn" onClick={() => submitComment()}>Send</button>
                 <br /> <br />
               </div>
@@ -181,10 +193,26 @@ function VideoPage() {
                   <h4>No comments yet</h4>
                 </span>
               </div> :
-                comments?.map((c) =>
+                allvids.videoComments?.map((c) =>
                   <div key={c._id} className="comment">
-                    <p className="comment-text">{c.commentText}</p>
-                    <i className="bi bi-three-dots-vertical" onClick={editMenu}></i>
+                    <ul>
+                      <li>{c.commentText}</li>
+                      <li className="username">by: {c.username}</li>
+                    </ul>
+                    {c.by.includes(allvids.luser._id) ? 
+                    <div>
+
+                    <i className="bi bi-three-dots-vertical" onClick={editMenu}>
+                    </i>
+
+                    <div className="opt-menu">
+                      <button onClick={handleEdit}>Edit</button>
+                      <button onClick={()=>handleEdit(c._id)}>delete</button>
+                    </div>
+                    </div>
+                    : ''}
+                    
+
                   </div>
                 )}
             </div>

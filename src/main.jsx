@@ -10,6 +10,8 @@ import SignIn from '../pages/Signin.jsx';
 import { Channel } from '../pages/channel.jsx';
 import { ToastContainer } from 'react-toastify';
 import VideoUpload from '../pages/VideoUpload.jsx';
+import Dashboard from '../pages/Dashboard.jsx';
+import EditVideo from '../pages/DeleteChannel.jsx';
 
 const route = createBrowserRouter([
   {
@@ -32,6 +34,16 @@ const route = createBrowserRouter([
         path: "/upload",
         element: <VideoUpload/>, 
       },
+      {
+        path:"/dashboard",
+        element: <Dashboard/>,
+        children: [
+      {
+        path: "edit",
+        element: <EditVideo/>,
+      }
+    ]
+  },
     ]
   },
   {
