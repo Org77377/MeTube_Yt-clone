@@ -5,8 +5,8 @@ function UserMenu(){
         <>
             <div className="user-menu">
                 <div className="user-avatar">
-                    <Link to='/login'> 
-                        <i class="bi bi-person-circle"></i>
+                    <Link to='/login'  replace="true"> 
+                        <i className="bi bi-person-circle"></i>
                         <span className="user-signin">Sign In</span>
                     </Link>
                 </div>

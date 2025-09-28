@@ -12,19 +12,41 @@ function VideoPage() {
   const [comments, setComments] = useState([]);
   const [allvids, setAll] = useState([]);
   const [addCmt, setNewcmt] = useState('');
-  // const[editmenu, seteditMenu] = useState(false);
-  // const[commentField, setCommentField] = useState('');
+  const [state, setState] = useState(0);
 
   useEffect(() => {
     async function getData() {
-      const data = await fetch(`http://localhost:3000/view/${id.id}`, { method: 'PUT' });
-      const jsonData = await data.json();
-      setVideo(jsonData.data);
-      setAll(jsonData)
-      setComments(jsonData.videoComments);
+      await axios.put(`http://localhost:3000/view/${id.id}`, null, {
+        headers: {
+          Authorization: sessionStorage.getItem("token"),
+        }
+      }).then((res) => {
+        // console.log(res);
+      }).catch((err) => {
+        toast.error(err.response.data);
+      })
     }
     getData();
-  }, [])
+  }, [id])
+
+  useEffect(() => {
+    async function getData() {
+      await axios.get(`http://localhost:3000/view/${id.id}`, {
+        headers: {
+          Authorization: sessionStorage.getItem("token"),
+        }
+      }).then((res) => {
+        // console.log(res);
+        setVideo(res.data.data);
+        res.data.data.views -= 1;
+        setAll(res.data)
+        setComments(res.data.videoComments);
+      }).catch((err) => {
+        toast.error(err.response.data);
+      })
+    }
+    getData();
+  }, [state])
 
   const ctoken = sessionStorage.getItem('token')
 
@@ -39,6 +61,7 @@ function VideoPage() {
       }
     }).then((res) => {
       toast(res.data.msg)
+      setState((pre) => pre + 1);
     }).catch((err) => {
       toast.warn(err.response.data.msg);
     })
@@ -48,35 +71,54 @@ function VideoPage() {
     toast("edit");
   }
   const channelInfo = allvids.channels?.filter((d) => d.owner.includes(allvids.data.uploader))[0];
-  // console.log(channelInfo)
+  const isSub = !channelInfo?.subscribers?.includes(allvids.luser ? allvids?.luser._id : null);
+
   async function subscribe() {
-    await axios.put(`http://localhost:3000/channel/subscribe/${channelInfo._id}`, null, {
+    const url = !isSub ?
+      `http://localhost:3000/channel/unsubscribe/${channelInfo._id}` :
+      `http://localhost:3000/channel/subscribe/${channelInfo._id}`;
+
+    await axios.put(url, null, {
       headers: {
-                Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-            }
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      }
     }).then((res) => {
-      toast.
-        console.log(res)
-      })
+      setState(pre => pre + 1)
+      toast(res.data.msg)
+    })
       .catch((error) => {
-        toast.info(error.response.data.msg)
-        console.log(error)
+        setState(pre => pre + 1)
+        toast.info(error.response.data.msg);
       });
   }
 
   async function AddLike() {
-    await axios.put(`http://localhost:3000/video/like/${id.id}`, null,{
+    await axios.put(`http://localhost:3000/video/like/${id.id}`, null, {
       headers: {
-                "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
-                "Name": 'Omkarg',
-            }
+        "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+        "Name": 'Omkarg',
+      }
     }).then((res) => {
       toast(res.data.msg)
+      setState((pre) => pre + 1);
     }).catch((err) => {
-      console.log(err);
+      toast.error(err.response.data.msg)
     })
   }
 
+  async function AddDisLike() {
+    await axios.put(`http://localhost:3000/video/dislike/${id.id}`, null, {
+      headers: {
+        "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+        "Name": 'Omkarg',
+      }
+    }).then((res) => {
+      toast(res.data.msg)
+      setState((pre) => pre + 1);
+    }).catch((err) => {
+      toast.error(err.response.data.msg)
+    })
+  }
 
   return (
     <div className="video-page-container">
@@ -95,13 +137,13 @@ function VideoPage() {
 
           {/* Video description */}
           <div className="video-description">
-            <h1 className="video-title">{video.title}</h1>
+            <h1 className="video-title">{video?.title}</h1>
             <span className="reactions">
               <i onClick={AddLike} className="bi bi-hand-thumbs-up-fill">{video.likes}</i>
-              <i className="bi bi-hand-thumbs-down-fill">{video.dislikes}</i>
+              <i onClick={AddDisLike} className="bi bi-hand-thumbs-down-fill">{video.dislikes}</i>
             </span>
             <div className="video-meta">
-              <span className="views">{video.views} Views</span> • <span className="publish-date">{
+              <span className="views">{video?.viewedBy?.length} Views</span> • <span className="publish-date">{
                 Math.floor((Date.now() - new Date(video.uploadDate).getTime()) / (1000 * 60 * 60)) > 24
                   ? `${Math.floor((Date.now() - new Date(video.uploadDate).getTime()) / (1000 * 60 * 60 * 24))} days ago`
                   : `${Math.floor((Date.now() - new Date(video.uploadDate).getTime()) / (1000 * 60 * 60))} hours ago`
@@ -112,7 +154,7 @@ function VideoPage() {
                 <img className="ch-preview-image" src={channelInfo?.channelBanner} alt="" />
               </div>
               <div className="sub-button" onClick={subscribe}>
-                Subscribe <small>{channelInfo?.subs}</small>
+                {isSub ? "Subscribed " : "Subscribe "}<small>{channelInfo?.subs}</small>
               </div>
             </div>
             <div className="description-text">
@@ -140,14 +182,9 @@ function VideoPage() {
                 </span>
               </div> :
                 comments?.map((c) =>
-                  <div className="comment">
+                  <div key={c._id} className="comment">
                     <p className="comment-text">{c.commentText}</p>
-                    <i class="bi bi-three-dots-vertical" onClick={editMenu}></i>
-
-                    {/* <span className="setEdit">
-                  <span>Edit</span>
-                  <span>Delete</span>
-                </span> */}
+                    <i className="bi bi-three-dots-vertical" onClick={editMenu}></i>
                   </div>
                 )}
             </div>
@@ -158,12 +195,12 @@ function VideoPage() {
         <div className="suggestions">
           <h2>Suggested Videos</h2>
           {allvids.suggest?.map(vid =>
-            <div className="suggested-video-thumbnails">
+            <div key={vid._id} className="suggested-video-thumbnails">
               <div className="video-tile">
                 <img src={vid.thumbnailUrl} alt="video thumbnail" />
                 <br /><br />
                 <p>{vid.title}</p>
-                <p style={{ fontSize: '12px', color: 'grey' }}>{vid.views}-Views</p>
+                <p style={{ fontSize: '12px', color: 'grey' }}>{vid.viewedBy?.length}-Views</p>
               </div>
             </div>
           )}

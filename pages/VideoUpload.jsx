@@ -59,7 +59,7 @@ function VideoUpload() {
 
     async function createChannel(e) {
         e.preventDefault();
-        setLoader(false)
+        setLoader(true)
         const formdata = new FormData();
         formdata.append("channelname", channelname);
         formdata.append("description", description);
@@ -71,10 +71,10 @@ function VideoUpload() {
             }
         }).then((res) => {
             setLoader(false)
-            console.log(res)
+            toast.success(res.data.msg)
         }).catch((err) => {
-            setLoader(true)
-            console.log(err)
+            setLoader(false)
+            toast.error(err.response.data.msg)
         })
     }
 
@@ -127,7 +127,7 @@ function VideoUpload() {
                                             <div className="load">
                                             </div>
                                         </div>
-                                    }{loader ? "Creating Channel.." : "Create Channel"}</button>
+                                    }{loader ? "Creating..." : "Create Channel"}</button>
                             </form>
                         </div>
                     </div>

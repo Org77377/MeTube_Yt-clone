@@ -7,66 +7,66 @@ function SideMenuStatic(){
             <div className={`side-menu-sm`}>
                 <div className={`side-container-sm`}>
                     <div className={`content-sm`}>
-                        <i class="bi bi-house-fill"></i>
+                        <i className="bi bi-house-fill"></i>
                         <li>Home</li>
                     </div>
                     <div className={`content-sm`}>
-                        <i class="bi bi-file-play-fill"></i>
+                        <i className="bi bi-file-play-fill"></i>
                         <li>Shorts</li>
                     </div>
                     <div className={`content-sm`}>
-                        <i class="bi bi-bookmark-check-fill"></i>
+                        <i className="bi bi-bookmark-check-fill"></i>
                         <li>Subsriptions</li>
                     </div>
 
                     <hr /> 
 
                     <div className={`content-sm`}>
-                        <i class="bi bi-person-circle"></i>
+                        <i className="bi bi-person-circle"></i>
                         <li>You</li>
                     </div>
                     <div className={`content-sm`}>
-                        <i class="bi bi-clock-history"></i>
+                        <i className="bi bi-clock-history"></i>
                         <li>History</li>
                     </div>
                     <div className={`content-sm`}>
-                        <i class="bi bi-person-circle"></i>
+                        <i className="bi bi-person-circle"></i>
                         <li>You</li>
                     </div>
                     <div className={`content-sm`}>
-                        <i class="bi bi-clock-history"></i>
+                        <i className="bi bi-clock-history"></i>
                         <li>History</li>
                     </div>
                     <div className={`content-sm`}>
-                        <i class="bi bi-person-circle"></i>
+                        <i className="bi bi-person-circle"></i>
                         <li>You</li>
                     </div>
                     <div className={`content-sm`}>
-                        <i class="bi bi-clock-history"></i>
+                        <i className="bi bi-clock-history"></i>
                         <li>History</li>
                     </div>
                     <div className={`content-sm`}>
-                        <i class="bi bi-person-circle"></i>
+                        <i className="bi bi-person-circle"></i>
                         <li>You</li>
                     </div>
                     <div className={`content-sm`}>
-                        <i class="bi bi-clock-history"></i>
+                        <i className="bi bi-clock-history"></i>
                         <li>History</li>
                     </div>
                     <div className={`content-sm`}>
-                        <i class="bi bi-person-circle"></i>
+                        <i className="bi bi-person-circle"></i>
                         <li>You</li>
                     </div>
                     <div className={`content-sm`}>
-                        <i class="bi bi-clock-history"></i>
+                        <i className="bi bi-clock-history"></i>
                         <li>History</li>
                     </div>
                     <div className={`content-sm`}>
-                        <i class="bi bi-person-circle"></i>
+                        <i className="bi bi-person-circle"></i>
                         <li>You</li>
                     </div>
                     <div className={`content-sm`}>
-                        <i class="bi bi-clock-history"></i>
+                        <i className="bi bi-clock-history"></i>
                         <li>History</li>
                     </div>
                 </div>

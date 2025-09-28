@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./pages.css";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, replace } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 
@@ -10,7 +10,6 @@ const SignIn = ()=>{
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [loader, setLoader] = useState(false);
-    // const [signedUp, setSignUp] = useState(false);
 
     const navigate = useNavigate();
 
@@ -22,7 +21,6 @@ const SignIn = ()=>{
         formData.append('password', pass);
         const ctoken = sessionStorage.getItem('token')
 
-        // await fetch('http://localhost:3000/user/signup',{method: 'POST', body: formData})
         await axios.post('http://localhost:3000/user/login', formData, {
             headers: {
             'Content-Type': 'multipart/form-data',
@@ -34,11 +32,9 @@ const SignIn = ()=>{
           setTimeout(()=>{
             toast.info("Redirecting to Homepage", {autoClose: 2000})
           },1000);
-          // toast.success(res.response.msg);
           setTimeout(()=>{
-            navigate("/");
+            navigate("/", {replace: true});
           },3000)
-          console.log(res)
           sessionStorage.setItem("token", res.data.token);
         }).catch((err)=>{
             setLoader(false);

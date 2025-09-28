@@ -13,7 +13,7 @@ function Logo(){
                 <li className="icon" onClick={()=>switchSidebtn()}>
                     <i className="bi bi-list"></i>
                 </li>
-                <Link to={'/'}>
+                <Link to={'/'} replace={true}>
                 <li className="logo">
                     <img src="/main_logo.svg" alt="app_logo" />
                     <small className="logo-txt"> <b>MeTube</b></small>
