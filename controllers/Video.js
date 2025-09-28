@@ -110,7 +110,7 @@ export async function deleteVideo(req, res){
         }
         return res.status(500).json({"msg": "You dont have permission to perform this operation"})
     }catch(error){
-        console.log(error)
+        return res.status(502).json({"msg": "Internal Server Error"})
     }
 }
 
@@ -125,12 +125,14 @@ export async function likeVideo(req, res){
             return res.status(404).json("No video found");
         }else{
         if(video.likedBy.includes(userDetails._id)){
+            video.views -= 1;
             return res.json({msg: "already liked"})
         }
-        video.likedBy.push(userDetails._id)
-        video.dislikes > 0 ? video.dislikes -= 1 : '' ;
-        video.likes += 1;
-        (video.viewedBy.includes(userDetails._id)) ? '' : video.viewedBy.push(userDetails._id) ;
+            video.likedBy.push(userDetails._id)
+            video.dislikes > 0 ? video.dislikes -= 1 : '' ;
+            // video.views -= 1;
+            video.likes += 1;
+            (video.viewedBy.includes(userDetails._id)) ? '' : video.viewedBy.push(userDetails._id) ;
         await video.save()
         return res.status(201).json({msg: "Video Liked"});
     }
@@ -151,6 +153,7 @@ export async function dislikeVideo(req, res){
         }else{
         if(video.likedBy.includes(userDetails._id)){
             video.likedBy.pop(userDetails._id)
+            // video.views -= 1;
             video.dislikes += 1
             video.likes -= 1;
             await video.save()  

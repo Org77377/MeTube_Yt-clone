@@ -11,7 +11,7 @@ export async function checkAuth(req, res, next){
         next();
     
     }catch(error){
-        console.log(req.headers)
+        // console.log(req.headers)
         return res.status(403).json({"msg" : "Please Login"})
     }
 } 

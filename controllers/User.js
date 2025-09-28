@@ -88,7 +88,12 @@ export async function HandleSubscribe(req, res){
             return res.status(503).json({msg : "feature not available for you"})
         }
         if(userChannel.subscribers.includes(userData._id)){
-            return res.status(300).json({msg : "Already Subscribed"});
+            userChannel.subscribers.pop(userData._id);
+            userChannel.subs > 0 ? userChannel.subs -= 1 : '' ;
+            userData.subscribed.pop(req.params.channelId);
+            await userChannel.save();
+            await userData.save();
+            return res.status(400).json({msg: "Unsubscribed"});
         }
         userChannel.subscribers.push(userData._id);
         userChannel.subs += 1;
@@ -119,7 +124,7 @@ export async function HandleUnSubscribe(req, res){
             userData.subscribed.pop(req.params.channelId);
             await userChannel.save();
             await userData.save();
-            return res.status(400).send("Unsubscribed");
+            return res.status(400).json({msg: "Unsubscribed"});
         }
         return res.status(201).send("You are not a subscriber of this channel");
     }
