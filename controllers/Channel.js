@@ -25,7 +25,7 @@ export async function channelCreate(req, res){
                 bannerId: cloudData.public_id,
             })
             await User.findByIdAndUpdate(user._id ,{$set: {"channel.channelName": req.body.chanelname, "channel.isCreated": true}},{new: true})
-            return res.json({newChannel: newData});
+            return res.status(200).json({newChannel: newData, msg: "Channel Created"});
         }else{
             return res.status(501).json({msg : "Channel Already Exist"});
         }
@@ -42,11 +42,15 @@ export async function deleteChannel(req, res){
         const user = await jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
         const userdetail = await User.findById(user._id)
         const userChannel = await channel.findById(req.params.channelId);
+        const videos = await Video.find({uploader: userdetail._id});
         if(!userChannel){
             return res.json({msg: "No channel found"})
         }else{
         if(userChannel.owner.equals(userdetail._id)){
             await cloudinary.uploader.destroy(userChannel.bannerId)
+            await cloudinary.uploader.destroy(videos.map(d=>d.videoId), {resource_type : 'video'})
+            await cloudinary.uploader.destroy(videos.map(d=>d.thumbnaiId))
+            await Video.deleteMany({uploader: userdetail._id})
             const deletedCh = await channel.findByIdAndDelete(userChannel._id, {new: true})
                 userdetail.channel.channelName = null;
                 userdetail.channel.isCreated = false;
@@ -57,6 +61,7 @@ export async function deleteChannel(req, res){
             return res.status(500).json("its not your channel")
         }
     }catch(err){
+        console.log(err)
         return res.status(500).json({msg: "Error Happened"})
     }
 }

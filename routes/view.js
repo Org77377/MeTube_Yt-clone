@@ -7,46 +7,35 @@ import jwt from "jsonwebtoken"
 const viewRoute = express.Router()
 
 viewRoute.put("/:videoId", async (req, res) => {
-  try {
-    let lguser = null;
-    if (req.headers.authorization) {
-      try {
-        lguser = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
-      } catch {
-
-        lguser = null;
+  try{
+    const token = req.headers.authorization.split(" ")[1];
+    const video = await Video.findById(req.params.videoId)
+    if(req.headers.authorization.split(" ")[1] == ''){
+      video.views +=1;
+      await video.save();
+      return res.status(200).json({msg: "view added"})
+    }else{
+    if(token){
+      console.log(token)
+      const userData = jwt.verify(token, process.env.JWT_SECRET)
+      if(video.viewedBy.includes(userData._id)){
+        return res.status(200).json({msg: "Your view is already registered"})
       }
+      await video.viewedBy.push(userData._id)
+      await video.save();
+      return res.status(200).json({msg: "View added"})
     }
-
-    const video = await Video.findById(req.params.videoId);
-    if (!video) {
-      return res.status(404).json("Video not found");
-    }
-
-    if (lguser) {
-
-      if (video.viewedBy.includes(lguser._id)) {
-        return res.json({ msg: "Already viewed" });
-      }
-
-      video.viewedBy.push(lguser._id);
-    }
-
-    video.views += 1;
-
-    await video.save();
-
-    return res.status(201).json({ msg: "View added!" });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ msg: "Server error" });
+    return res.status(503).json({msg : "error occured"})
+  }
+  }catch(err){
+    console.log(err)
   }
 });
 
 viewRoute.get("/:videoId", async (req, res) => {
     let lguser = null;
-    if(!req.headers){
-        lguser = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
+    if(!req.headers.authorization == ''){
+        lguser = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);   
     }
     else{
         lguser = null;

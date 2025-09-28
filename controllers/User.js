@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import {v2 as cloudinary} from "cloudinary";
 import channel from "../models/Channel.js";
+import Video from "../models/Video.js";
 
 dotenv.config();
 
@@ -135,12 +136,17 @@ export async function HandleUnSubscribe(req, res){
 
 export async function getUser(req, res){
     try{
-        const authCheck = jwt.verify(req.headers.authorization.split(" ")[0], process.env.JWT_SECRET);
+        const authCheck = jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
         const userData = await User.findById(authCheck._id);
+        const chInfo = await channel.find({owner: authCheck._id});
+        const userVids = await Video.find({uploader: authCheck._id})
+        const viewdVids = await Video.find({viewedBy: authCheck._id})
+        const likedVids = await Video.find({likedBy: authCheck._id})
+        const subChannels = await channel.find({_id: userData.subscribed})
         if(!authCheck){
             return res.status(504).json({msg: "Please login"});
         }
-        return res.status(201).json({msg: "working fine", data: userData});
+        return res.status(201).json({msg: "working fine", data: userData, channel: chInfo, videos: userVids, subd: subChannels, viewd: viewdVids, liked: likedVids});
     }catch(err){
         return res.status(501).json({msg: "Please login"})
     }

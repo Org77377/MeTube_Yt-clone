@@ -76,7 +76,7 @@ export async function updateVideo(req, res){
                 await vidID.save();
                     // const updatedVideoData = await Video.findByIdAndUpdate(vidID, newData,{new:true});
                      return res.status(201).json({
-                        newData: vidID,
+                        newData: vidID, msg: "Details updated"
                     });
             }
         }
@@ -179,6 +179,7 @@ export async function addComment(req, res){
         const newComment = await Comments.create({
             by: userDetails._id,
             videoId: video._id,
+            username: userDetails.username,
             commentText: req.body.comment,
         })
 
