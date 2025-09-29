@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 
 function VideoPage() {
-
+  const formData = new FormData();
   const id = useParams();
   const [video, setVideo] = useState([]);
   const [comments, setComments] = useState([]);
@@ -18,7 +18,7 @@ function VideoPage() {
     async function getData() {
       await axios.put(`http://localhost:3000/view/${id.id}`, null, {
         headers: {
-          Authorization: `${sessionStorage.getItem("token")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         }
       }).then((res) => {
         console.log(res);
@@ -120,27 +120,42 @@ function VideoPage() {
   }
 
   async function handleDelete(id) {
-    console.log(id)
-      await axios.delete(`http://localhost:3000/comment/${id}`, {
-        headers:{
-          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-        }
-      })
-      .then((res)=>{
-        console.log(res)
-      }).catch((err)=>{
-        console.log(err)
+    await axios.delete(`http://localhost:3000/comment/${id}`, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      }
+    })
+      .then((res) => {
+        toast.success(res.data.msg)
+        setState((pre) => pre + 1);
+        // console.log(res)
+      }).catch((err) => {
+        setState((pre) => pre + 1);
+        toast.error(err.response.data.msg)
+        // console.log(err)
       })
   }
 
-  function handleEdit(id) {
-    toast(id)
+  async function handleEdit(id) {
+    const newCmt = prompt("Enter a new comment")
+    formData.append("comment", newCmt)
+    await axios.put(`http://localhost:3000/comment/${id}`, formData, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`
+      }
+    })
+      .then((res) => {
+        toast.success(res.data.msg)
+        setState(pre => pre + 1)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   return (
     <div className="video-page-container">
       {/* {console.log(addCmt)} */}
-      {console.log(allvids)}
       <div className="video-content">
         {/* Main video section */}
         <div className="video-player">
@@ -189,7 +204,7 @@ function VideoPage() {
               <h5>Add a comment</h5>
               {/* <div className="comment-box"> */}
               <div className="comment-box">
-                <input type="text" value={addCmt} name="newComment" id="comment" onChange={(e) => setNewcmt(e.target.value)} />
+                <input type="text" value={addCmt} name="newComment" id="comment" onChange={(e) => setNewcmt(e.target.value)} required />
                 <button className="cmt-btn" onClick={() => submitComment()}>Send</button>
                 <br /> <br />
               </div>
@@ -203,15 +218,15 @@ function VideoPage() {
                   <div key={c._id} className="comment">
                     <ul>
                       <div>
-                      <li>{c.commentText}</li>
-                      <li className="username">by: {c.username}</li>
+                        <li>{c.commentText}</li>
+                        <li className="username">by: {c.username}</li>
                       </div>
                       {c.by.includes(allvids.luser?._id) ?
-                      <div className="btns" onClick={()=>handleDelete(c._id)}>
-                        <i class="bi bi-pen" onClick={()=>handleEdit(c._id)}></i>
-                        <i class="bi bi-trash"></i>
-                      </div>
-                      : ''}
+                        <div className="btns">
+                          <i class="bi bi-pen" onClick={() => handleEdit(c._id)}></i>
+                          <i class="bi bi-trash" onClick={() => handleDelete(c._id)}></i>
+                        </div>
+                        : ''}
                     </ul>
                   </div>
                 )}
@@ -233,6 +248,7 @@ function VideoPage() {
             </div>
           )}
         </div>
+
       </div>
     </div>
   );

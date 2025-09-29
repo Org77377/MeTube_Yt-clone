@@ -128,7 +128,8 @@ function VideoUpload() {
                                             <div className="load">
                                             </div>
                                         </div>
-                                    }{loader ? "Creating..." : "Create Channel"}</button>
+                                    }{loader ? "Creating..." : "Create Channel"}
+                                </button>
                             </form>
                         </div>
                     </div>

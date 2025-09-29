@@ -11,6 +11,7 @@ function Dashboard() {
     const [subscribed, setSub] = useState([]);
     const [liked, setLiked] = useState([]);
     const [loader, setLoader] = useState(false);
+    const [vidloader, setVLoader] = useState(false);
     const [viewd, setViewd] = useState([]);
     const [state, setState] = useState(0);
 
@@ -30,7 +31,7 @@ function Dashboard() {
                     setChannel(res.data.channel)
                 })
                 .catch((err) => {
-                    console.log(err)
+                    toast.error(err.response.data.msg)
                 })
         }
         getData();
@@ -48,15 +49,30 @@ function Dashboard() {
                 setLoader(false)
                 setState(pre => pre + 1)
                 toast.success(res.data.msg)
-                console.log(res)
             })
             .catch((err) => {
+                toast.success(err.response.data.msg)
                 setLoader(false)
-                console.log(err)
             })
     }
-    console.log(user, channel, uploads, subscribed)
 
+    async function handleDelete(data) {
+        setVLoader(true)
+        await axios.delete(`http://localhost:3000/video/${data}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            }
+        })
+            .then((res) => {
+                toast.success(res.data.msg)
+                setState(pre => pre + 1)
+                setVLoader(false)
+            })
+            .catch((err) => {
+                toast.error(err.response.data.msg)
+                setVLoader(false)
+            })
+    }
     return (
         <>
             <div className="channel-container">
@@ -77,7 +93,7 @@ function Dashboard() {
                                 <p>Subscribers: {channel[0].subs}</p>
                                 <p>Videos: {uploads?.length}</p>
                                 Description:
-                                <p style={{textAlign:'left'}}> {channel[0]?.description}</p>
+                                <p style={{ textAlign: 'left' }}> {channel[0]?.description}</p>
 
                                 <button className="ch-del" onClick={() => delChannel(channel[0]._id)}>
                                     {loader && <div className="loader">
@@ -109,7 +125,9 @@ function Dashboard() {
                             {
                                 liked.map((like) =>
                                     <div key={like._id} className="video-liked-cont">
+                                        <Link to={`/video/${like._id}`}>
                                         <img src={like.thumbnailUrl} alt="liked-video-thumbnail" />
+                                        </Link>
                                         <li>{like.title}</li>
                                     </div>
                                 )
@@ -121,12 +139,17 @@ function Dashboard() {
                     <h1>Your videos</h1>
                     <div className="user-videos-box">
                         {uploads.map((data) =>
-                            <div className="user-videos">
+                            <div key={data._id} className="user-videos">
                                 <Link to={`/dashboard/edit/${data._id}`}>
                                     <img className="user-videos-img" src={data.thumbnailUrl} alt="" />
                                 </Link>
                                 <li>{data.title}</li>
                                 <li>{data.viewedBy?.length} views - {data.likedBy?.length} likes</li>
+                                <i className="bi bi-trash del-video" onClick={() => handleDelete(data._id)}>
+                                    {vidloader && <div className="loader">
+                                        <div className="load"></div>
+                                    </div>}{vidloader ? "Deleting.." : "Delete"}
+                                </i>
                             </div>
                         )}
                     </div>
@@ -136,8 +159,8 @@ function Dashboard() {
                     <h2 style={{ color: 'white' }}>Watch history</h2> f
                     <div className="user-videos-box">
                         {viewd.map((data) =>
-                            <div className="user-videos">
-                                <Link to={`/dashboard/edit/${data._id}`}>
+                            <div key={data._id} className="user-videos">
+                                <Link to={`/video/${data._id}`}>
                                     <img className="user-videos-img" src={data.thumbnailUrl} alt="" />
                                 </Link>
                                 <li>{data.title}</li>

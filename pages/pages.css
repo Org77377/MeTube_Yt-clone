@@ -15,7 +15,7 @@ body {
     align-items: center;
     height: auto;
     width: 100vw;
-    padding:40px;
+    padding: 40px;
     background-color: #ffffff;
 }
 
@@ -47,7 +47,8 @@ body {
 }
 
 /* Input styling */
-.signup-form input, textarea {
+.signup-form input,
+textarea {
     width: 100%;
     background-color: transparent;
     color: white;
@@ -98,14 +99,16 @@ body {
 
 /* Responsive design: For smaller screens */
 @media screen and (max-width: 720px) {
-    .signup-container{
+    .signup-container {
         background-color: #2f2e2eea;
         height: 100vh;
     }
-    .signup-form{
+
+    .signup-form {
         margin: 50px 0px;
         background-color: #171616;
     }
+
     .signup-form {
         padding: 10px;
         width: 100%;
@@ -182,13 +185,15 @@ body {
     justify-content: space-between;
     align-items: center;
 }
-.comment ul{
+
+.comment ul {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
-.username{
+
+.username {
     font-size: 0.6rem;
 }
 
@@ -248,12 +253,15 @@ body {
     * {
         overflow-x: hidden;
     }
-    *::-webkit-scrollbar{
+
+    *::-webkit-scrollbar {
         display: none;
     }
+
     .comment {
         width: 100%;
     }
+
     .video-tile:hover {
         width: auto;
         transform: none;
@@ -269,7 +277,7 @@ body {
         background-color: #b01926;
     }
 
-    .video-player{
+    .video-player {
         display: flex;
         flex-direction: column;
         height: fit-content;
@@ -277,17 +285,21 @@ body {
         gap: 10px;
         width: 100%;
     }
-    .video{
+
+    .video {
         width: 100%;
     }
-    .video-comments{
+
+    .video-comments {
         justify-self: flex-start;
     }
-    .video-description{
+
+    .video-description {
         background-color: #5653531b;
         border-radius: 20px;
         padding: 20px;
     }
+
     .suggestions {
         flex: 3;
         width: 100%;
@@ -318,7 +330,8 @@ body {
         flex-direction: column;
         gap: 1rem;
     }
-/* 
+
+    /* 
     .video-player {
         margin-right: 20px;
         margin-bottom: 20px;
@@ -339,136 +352,155 @@ body {
 }
 
 /* like button  */
-.reactions{
+.reactions {
     display: flex;
     gap: 20px;
     font-size: 1.6rem;
 }
-.reactions i{
+
+.reactions i {
     transition: all 0.1s ease;
 }
-.reactions i:active{
+
+.reactions i:active {
     animation: 0.2s linear 1 react;
 }
-.sub-button{
+
+.sub-button {
     cursor: pointer;
 }
+
 @keyframes react {
-    0%{
+    0% {
         color: rgb(35, 35, 35);
         scale: 1;
     }
-    40%{
+
+    40% {
         color: rgb(227, 30, 30);
         scale: 1.1;
         transform: rotate(10deg);
     }
-    60%{
+
+    60% {
         color: rgb(227, 30, 30);
         scale: 1.1;
         transform: rotate(20deg);
     }
-    100%{
+
+    100% {
         color: rgb(35, 35, 35);
         scale: 1;
     }
 }
+
 /* ------video page ends here--------- */
 
-    .preview-image{
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background-color: red;
-        object-fit: cover;
-    }
-    .preview-container{
-        display: flex;
-        justify-content: center;
+.preview-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: red;
+    object-fit: cover;
+}
+
+.preview-container {
+    display: flex;
+    justify-content: center;
+}
+
+.load {
+    background-color: white;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    animation: 1s load linear infinite both;
+}
+
+@keyframes load {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.8;
     }
 
-    .load{
-        background-color:white;
-        height: 20px;
-        width: 20px;
-        border-radius: 50%;
-        animation: 1s load linear infinite both;
-    }
-    @keyframes load {
-        0%{
-            transform:scale(0.5);
-            opacity: 0.8;
-        }
-        50%{
-            transform:scale(1);
-            opacity: 1;
-        }
-        100%{
-            transform:scale(1.2);
-            opacity: 0.3;
-        }
-    }
-    .success{
-        background-color: black;
-        border-radius: 10px;
-        width: fit-content;
-        color: rgb(45, 245, 45);
-        padding: 20px;
-        position: fixed;
-        top: 20px;
-        right: 10px;
-        animation: 4s linear 1 bounce;
-    }
-    @keyframes bounce{
-        0%{
-            transform: translateX(500px);
-            opacity: 0;
-        }
-        40%{
-            transform: scale(1);
-            transform: translateX(0px);
-        }
-        70%{
-            transform: scale(1);
-            transform: translateX(0px);
-        }
-        100%{
-            transform: translateX(300px);
-        }
+    50% {
+        transform: scale(1);
+        opacity: 1;
     }
 
-    /* comment menu edit and delete option */
-    .comment{
-        position: relative;
+    100% {
+        transform: scale(1.2);
+        opacity: 0.3;
     }
-    /* .btns{
+}
+
+.success {
+    background-color: black;
+    border-radius: 10px;
+    width: fit-content;
+    color: rgb(45, 245, 45);
+    padding: 20px;
+    position: fixed;
+    top: 20px;
+    right: 10px;
+    animation: 4s linear 1 bounce;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateX(500px);
+        opacity: 0;
+    }
+
+    40% {
+        transform: scale(1);
+        transform: translateX(0px);
+    }
+
+    70% {
+        transform: scale(1);
+        transform: translateX(0px);
+    }
+
+    100% {
+        transform: translateX(300px);
+    }
+}
+
+/* comment menu edit and delete option */
+.comment {
+    position: relative;
+}
+
+/* .btns{
         display: none;
         position: relative;
         top:10px;
         right: 30px;
     } */
-    .btns{
-        display: flex;
-        gap: 10px;
-        font-size: 0.8rem;
-    } 
+.btns {
+    display: flex;
+    gap: 10px;
+    font-size: 0.8rem;
+}
 
-    .btns i{
-        color: black;
-        padding: 8px 10px;
-        border-radius: 5px;
-        transition: all 0.4s ease;
-    }
-    .btns i:hover{
-        background-color: #ff082531;
-        color:rgb(255, 0, 0);
-        padding: 8px 10px;
-        border-radius: 5px;
-    }
+.btns i {
+    color: black;
+    padding: 8px 10px;
+    border-radius: 5px;
+    transition: all 0.4s ease;
+}
+
+.btns i:hover {
+    background-color: #ff082531;
+    color: rgb(255, 0, 0);
+    padding: 8px 10px;
+    border-radius: 5px;
+}
 
 
-    /* Subscribe button */
-    .profile-details{
+/* Subscribe button */
+.profile-details {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -482,18 +514,20 @@ body {
     font-size: 1.2rem;
     padding: 5px 10px;
     box-sizing: border-box;
-   }
-   .video-description{
+}
+
+.video-description {
     position: relative;
-   }
-   .ch-preview-image{
+}
+
+.ch-preview-image {
     height: 30px;
     width: 30px;
     border-radius: 50%;
-   }
+}
 
-   /* channel page styling */
-   .channel-container{
+/* channel page styling */
+.channel-container {
     margin-top: 80px;
     margin-left: 20px;
     width: 96%;
@@ -503,9 +537,10 @@ body {
     display: grid;
     grid-template-columns: 30% 70%;
     gap: 10px;
-    
-   }
-   .profile-side{
+
+}
+
+.profile-side {
     background-color: transparent;
     border: 4px solid rgba(192, 190, 190, 0.397);
     background-color: rgba(192, 190, 190, 0.240);
@@ -517,54 +552,64 @@ body {
     align-items: center;
     text-align: center;
     gap: 10px;
-   }
-   .profile-side li{
+}
+
+.profile-side li {
     width: 90%;
     word-wrap: break-word;
 }
-   .video-side{
+
+.video-side {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 8px;
-    overflow-y:scroll;  
-   }
-   .video{
-    background-color:rgba(195, 195, 195, 0.256);
+    overflow-y: scroll;
+}
+
+.video {
+    background-color: rgba(195, 195, 195, 0.256);
     border-radius: 10px;
     max-height: min-content;
-    padding: 10px; 
-   }
-   .video img{
+    padding: 10px;
+}
+
+.video img {
     width: 100%;
     border-radius: 10px;
     aspect-ratio: 16/9;
     object-fit: cover;
-   }
-   .ch-video-details{
+}
+
+.ch-video-details {
     margin-top: 20px;
     line-height: auto;
-   }
-   .ch-video-details .ch-title{
+}
+
+.ch-video-details .ch-title {
     font-size: 20px;
     font-weight: 700;
-   }
-   .channelBanner{
+}
+
+.channelBanner {
     height: 100px;
     width: 100px;
     border: 4px solid rgba(190, 190, 190, 0.397);
     object-fit: cover;
     border-radius: 50%;
     margin-top: 20px;
-   }
-   .video a{
+}
+
+.video a {
     text-decoration: none;
     color: #4b4b4b;
-   }
-   .video a:hover{
-    color:#1c1c1c;
-   }
-   @media (max-width: 1080px){
-    .channel-container{
+}
+
+.video a:hover {
+    color: #1c1c1c;
+}
+
+@media (max-width: 1080px) {
+    .channel-container {
         width: 90vw;
         height: 100%;
         padding: 10px;
@@ -574,135 +619,155 @@ body {
         align-items: center;
         gap: 10px;
     }
-    .profile-side{
+
+    .profile-side {
         width: 100%;
         padding: 10px;
     }
-    .channel-create{
+
+    .channel-create {
         height: 100vh;
     }
-   }
+}
 
-   /* video upload page styling */
-   .video-upload{
+/* video upload page styling */
+.video-upload {
     margin-top: 80px;
-   }
+}
 
-   .channel-create{
+.channel-create {
     height: 100%;
     background-color: #2b2b2b;
     padding: 20px;
     display: flex;
     justify-content: center;
-   }
-   .ch-form{
-       width: 90%;
-       display: flex;
-       justify-content: center;
-       height: max-content;
-   }
-   .signup-form hr{
+}
+
+.ch-form {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    height: max-content;
+}
+
+.signup-form hr {
     width: 20%;
     opacity: 0.8;
     border-top: 8px dotted rgb(72, 72, 72);
     margin-left: 50%;
     transform: translateX(-50%);
-   }
-   .signup-form h3{
+}
+
+.signup-form h3 {
     text-align: center;
-   }
-   .preview-video{
+}
+
+.preview-video {
     width: 40%;
     border: 1px solid white;
-   }
-   .th-preview-image{
+}
+
+.th-preview-image {
     width: 40%;
     aspect-ratio: 16/9;
     object-fit: contain;
     border: 1px solid white;
-   } 
-   .channel-info p{
+}
+
+.channel-info p {
     line-height: 1rem;
     font-size: 1rem;
-   }
-   .channel-info{
+}
+
+.channel-info {
     display: flex;
     flex-direction: column;
     align-items: start;
     cursor: text;
     margin: 0px 20px;
-   }
-   .sub-icon{
+}
+
+.sub-icon {
     background-color: #1c1c1c;
     height: 50px;
     width: 50px;
     border-radius: 50%;
-   }
-   .sub-channels{
+}
+
+.sub-channels {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
     margin: 0px 20px;
     width: 100%;
-   }
-   .video-liked-cont{
+}
+
+.video-liked-cont {
     display: flex;
     flex-direction: column;
     margin: 10px
-   }
-   .video-liked-cont img{
+}
+
+.video-liked-cont img {
     width: 100%;
     aspect-ratio: 16/9;
     margin: 10px 0px;
     border-radius: 10px;
-   }
-   .ch-del{
+}
+
+.ch-del {
     border: none;
     background-color: #c12835;
-    padding:10px;
+    padding: 10px;
     color: white;
     border-radius: 10px;
     transition: all 0.3s ease;
-   }
-   .ch-del:hover{
-    background-color:rgb(227, 38, 38);
+}
+
+.ch-del:hover {
+    background-color: rgb(227, 38, 38);
     padding-right: 20px;
-   }
-   .ch-video-side{
+}
+
+.ch-video-side {
     background-color: #2a2929;
     border-radius: 10px;
-    padding:10px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-   }
-   .ch-video-side h1{
+}
+
+.ch-video-side h1 {
     color: white;
-   }
-   .user-videos-box{
+}
+
+.user-videos-box {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 10px;
     width: 100%;
-   }
-   .user-videos{
+}
+
+.user-videos {
     width: 100%;
     padding: 5px;
     background-color: white;
     border-radius: 10px;
     font-size: 1.2rem;
-   }
-   .user-videos-img{
+}
+
+.user-videos-img {
     width: 100%;
     border-radius: 10px;
     aspect-ratio: 16/9;
-   }
-   /* .user-videos-box{
-    width: 100%;
-    display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 10px;
-   }
-   .user-videos{
-    height: 100%;
-    background-color: #1c1c1c;
-   } */
+}
+
+.del-video {
+    background-color: #b01926;
+    width: fit-content;
+    color: rgb(255, 255, 255);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}

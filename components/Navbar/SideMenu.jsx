@@ -1,12 +1,5 @@
 import "../style.css";
-import { useContext } from "react";
-import { SidebarBtn } from "../../context/SidebarContext";
-//side menu component 
 function SideMenu(){
-
-    // const {sidebtn} = useContext(SidebarBtn);
-    // setting class sm for smaller buttons when toggled 
-    // const  = sidebtn? "": '-sm';
 
     return(
         <>
