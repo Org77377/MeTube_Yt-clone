@@ -39,7 +39,7 @@ const route = createBrowserRouter([
         element: <Dashboard/>,
       },
       {
-        path: "/editvideo",
+        path: "/dashboard/edit/:id",
         element: <EditVideo/>,
       }
     ]
