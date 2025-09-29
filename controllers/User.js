@@ -37,7 +37,7 @@ export async function signUp(req, res){
         res.status(200).json({status: "Signed Up", data: user});
 
     }catch(error){
-        console.log(error);
+        // console.log(error);
         res.status(403).json({"error": "Server is having bad time please try after some time!"});
     }
 }
@@ -71,14 +71,14 @@ export async function logIn(req, res){
 
         return res.status(200).json({"msg": "Logged In", token: token});
     }catch(error){
-        console.log(error)
+        // console.log(error)
         res.status(502).json({err: error});
     }
 }
 
 export async function HandleSubscribe(req, res){
     try{
-        console.log(req.headers)
+        // console.log(req.headers)
     const user = jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
     const userData = await User.findById(user._id)
     const userChannel = await channel.findById(req.params.channelId)

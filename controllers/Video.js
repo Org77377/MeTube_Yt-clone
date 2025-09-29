@@ -51,34 +51,34 @@ export async function uploadVideo(req, res){
 export async function updateVideo(req, res){
     try{
         const validUser = await jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET)
+        const userCheck = await User.findById(validUser._id);
         const vidID = await Video.findById(req.params.videoId);
-        if(validUser.channel.isCreated == false){
-            return res.status(404).json({msg: "Please create a channel"});
-        }
-        if(validUser._id == vidID.uploader._id){
-            if(req.body){
+        if(userCheck.channel.isCreated == false){
+            return res.status(404).json({msg: "Please create a channel", user: userCheck});
+        }else{
+            if(validUser._id == vidID.uploader._id){
+                if(req.body){
                 const newData = {
                     title: req.body.title,
                     description: req.body.description,
                     category: req.body.category,
                 };  
                 const updatedVideo = await Video.findByIdAndUpdate(vidID, newData,{new:true});
-                return res.status(201).json({
-                    newData: updatedVideo,
-                })
-            }else{
                 await cloudinary.uploader.destroy(`${vidID.thumbnaiId}`);
                 const updateThumb = await cloudinary.uploader.upload(req.files.thumbnail.tempFilePath);
-                // const newData = {
-                    vidID.thumbnailUrl = updateThumb.secure_url;
-                    vidID.thumbnaiId = updateThumb.public_id;
-                // };
+                vidID.thumbnailUrl = updateThumb.secure_url;
+                vidID.thumbnaiId = updateThumb.public_id;
                 await vidID.save();
-                    // const updatedVideoData = await Video.findByIdAndUpdate(vidID, newData,{new:true});
-                     return res.status(201).json({
-                        newData: vidID, msg: "Details updated"
-                    });
+                // const updatedVideoData = await Video.findByIdAndUpdate(vidID, newData,{new:true});
+                return res.status(201).json({
+                    newData: updatedVideo, msg: "Video details updated"
+                })
+            }else{
+                return res.status(500).json({
+                    msg: "Error while updating details"
+                });
             }
+          }
         }
         res.json({err: "you dont have permission"})
     }catch(error){
@@ -208,6 +208,24 @@ export async function updateComment(req, res){
         return res.status(500).json({msg: "Invalid user"});
     }catch(error){
         res.status(502).json({msg : "Error while posting your comment"})
+    }
+}
+
+export async function deleteComment(req, res){
+    try{
+        const userDetails = jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET);
+        const currentComment = await Comments.findById(req.params.commentId);
+        if(!currentComment){
+            return res.status(404).json({msg: "cannot delete comment"});
+        }else{
+            if(currentComment.by.equals(userDetails._id)){
+               await Comments.findByIdAndDelete(currentComment._id)
+                return res.status(201).json({msg: "Comment deleted"});
+            }
+            return res.status(500).json({msg: "Invalid user"});
+        }
+    }catch(error){
+        res.status(502).json({msg : "Error while posting your comment", error: error})
     }
 }
 
