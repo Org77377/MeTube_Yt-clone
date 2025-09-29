@@ -7,29 +7,42 @@ import jwt from "jsonwebtoken"
 const viewRoute = express.Router()
 
 viewRoute.put("/:videoId", async (req, res) => {
-  try{
-    const token = req.headers.authorization.split(" ")[1];
+  try {
+    // Check if the authorization header is provided
+    const authHeader = req.headers.authorization;
+    const token = authHeader ? authHeader.split(" ")[1] : null;
+
+    // Get the video details
     const getVid = await Video.findById(req.params.videoId);
-    if(!token){
+
+    // If no token is provided, increment view count by 1
+    if (!token) {
       getVid.views += 1;
-      await getVid.save()
-      return res.status(200).json({msg: "view added"})
-    }else{
-      const viewUser = jwt.verify(token, process.env.JWT_SECRET);
-      if(getVid.viewedBy.includes(viewUser._id)){
-        return res.status(204).json({msg: "view already addedd"})
-      }
-      else{
-        getVid.viewedBy.push(viewUser._id);
-        getVid.views += 1;
-        await getVid.save();
-        return res.status(200).json({msg: "view addedd"})
-      }
+      await getVid.save();
+      return res.status(200).json({ msg: "View added without token" });
     }
-  }catch(err){
-    return res.status(500).json({msg: "view addedd"})
+
+    // If there is a token, verify the user
+    const viewUser = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Check if the user has already viewed the video
+    if (getVid.viewedBy.includes(viewUser._id)) {
+      return res.status(200).json({ msg: "View already added by this user" });
+    }
+    else{
+    // If not, add the user to the viewedBy list and increment view count
+    getVid.viewedBy.push(viewUser._id);
+    getVid.views += 1;
+    await getVid.save();
+
+    return res.status(200).json({ msg: "View added with token" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ msg: "An error occurred while adding view" });
   }
-})
+});
+
 
 viewRoute.get("/:videoId", async (req, res) => {
     let lguser = null;
