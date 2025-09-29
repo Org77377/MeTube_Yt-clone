@@ -53,6 +53,9 @@ export async function updateVideo(req, res){
         const validUser = await jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET)
         const userCheck = await User.findById(validUser._id);
         const vidID = await Video.findById(req.params.videoId);
+        if(!validUser._id == vidID.uploader._id){
+            return res.status(404).json({msg: "You are not a valid user"});
+        }
         if(userCheck.channel.isCreated == false){
             return res.status(404).json({msg: "Please create a channel", user: userCheck});
         }else{
@@ -78,9 +81,9 @@ export async function updateVideo(req, res){
                     msg: "Error while updating details"
                 });
             }
-          }
-        }
+         }
         res.json({err: "you dont have permission"})
+        }
     }catch(error){
         return res.status(500).json({err: error})
     }
