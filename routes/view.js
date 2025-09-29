@@ -23,23 +23,22 @@ viewRoute.put("/:videoId", async (req, res) => {
         getVid.viewedBy.push(viewUser._id);
         getVid.views += 1;
         await getVid.save();
-        return res.status(204).json({msg: "view addedd"})
+        return res.status(200).json({msg: "view addedd"})
       }
     }
   }catch(err){
-    console.log(req.headers.authorization.split(' ')[1])
-    console.log(err)
+    return res.status(500).json({msg: "view addedd"})
   }
 })
 
 viewRoute.get("/:videoId", async (req, res) => {
     let lguser = null;
-    if(!req.headers.authorization == null){
+    const token = req.headers.authorization.split(' ');
+    if( token != ''){
       lguser = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);   
     }
     else{
       lguser = null;
-      // console.log(req.headers)
     }
     try {
         const video = await Video.findById(req.params.videoId);
