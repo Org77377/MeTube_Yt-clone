@@ -16,9 +16,9 @@ function VideoPage() {
 
   useEffect(() => {
     async function getData() {
-      await axios.put(`http://localhost:3000/view/${id.id}viewedBy`, null, {
+      await axios.put(`http://localhost:3000/view/${id.id}`, null, {
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          Authorization: `${sessionStorage.getItem("token")}`,
         }
       }).then((res) => {
         console.log(res);
@@ -53,24 +53,20 @@ function VideoPage() {
   async function submitComment() {
     const formData = new FormData();
     formData.append('comment', addCmt);
-    
+
     await axios.post(`http://localhost:3000/comment/${id.id}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${ctoken}`,
       }
     }).then((res) => {
-      toast(res.data.msg)
+      toast.success(res.data.msg)
+      setNewcmt(' ')
       setState((pre) => pre + 1);
     }).catch((err) => {
       toast.warn(err.response.data.msg);
     })
 
-  }
-
-  function editMenu() {
-    const edit =document.querySelector(".opt-menu");
-    edit.style.display = edit.style.display== 'block' ? 'none' : 'block' ;
   }
 
   const channelInfo = allvids.channels?.filter((d) => d.owner.includes(allvids.data.uploader))[0];
@@ -123,19 +119,28 @@ function VideoPage() {
     })
   }
 
-  function handleEdit(){
-
+  async function handleDelete(id) {
+    console.log(id)
+      await axios.delete(`http://localhost:3000/comment/${id}`, {
+        headers:{
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        }
+      })
+      .then((res)=>{
+        console.log(res)
+      }).catch((err)=>{
+        console.log(err)
+      })
   }
-  function handleEdit(id){
-    // useEffect(()=>{
-    //   axios.delete(``)
-    // },[])
+
+  function handleEdit(id) {
     toast(id)
   }
 
   return (
     <div className="video-page-container">
       {/* {console.log(addCmt)} */}
+      {console.log(allvids)}
       <div className="video-content">
         {/* Main video section */}
         <div className="video-player">
@@ -197,23 +202,17 @@ function VideoPage() {
                 allvids.videoComments?.map((c) =>
                   <div key={c._id} className="comment">
                     <ul>
+                      <div>
                       <li>{c.commentText}</li>
                       <li className="username">by: {c.username}</li>
+                      </div>
+                      {c.by.includes(allvids.luser?._id) ?
+                      <div className="btns" onClick={()=>handleDelete(c._id)}>
+                        <i class="bi bi-pen" onClick={()=>handleEdit(c._id)}></i>
+                        <i class="bi bi-trash"></i>
+                      </div>
+                      : ''}
                     </ul>
-                    {c.by.includes(allvids.luser._id) ? 
-                    <div>
-
-                    <i className="bi bi-three-dots-vertical" onClick={editMenu}>
-                    </i>
-
-                    <div className="opt-menu">
-                      <button onClick={handleEdit}>Edit</button>
-                      <button onClick={()=>handleEdit(c._id)}>delete</button>
-                    </div>
-                    </div>
-                    : ''}
-                    
-
                   </div>
                 )}
             </div>

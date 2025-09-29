@@ -76,6 +76,8 @@ function Dashboard() {
                                 <p>Channel Name: {channel[0].channelName}</p>
                                 <p>Subscribers: {channel[0].subs}</p>
                                 <p>Videos: {uploads?.length}</p>
+                                Description:
+                                <p style={{textAlign:'left'}}> {channel[0]?.description}</p>
 
                                 <button className="ch-del" onClick={() => delChannel(channel[0]._id)}>
                                     {loader && <div className="loader">
@@ -116,32 +118,33 @@ function Dashboard() {
                     </div>
                 </div>
                 <div className="ch-video-side">
-                        <h1>Your videos</h1>
-                        <div className="user-videos-box">
+                    <h1>Your videos</h1>
+                    <div className="user-videos-box">
                         {uploads.map((data) =>
                             <div className="user-videos">
                                 <Link to={`/dashboard/edit/${data._id}`}>
-                                <img className="user-videos-img" src={data.thumbnailUrl} alt="" />
+                                    <img className="user-videos-img" src={data.thumbnailUrl} alt="" />
                                 </Link>
                                 <li>{data.title}</li>
                                 <li>{data.viewedBy?.length} views - {data.likedBy?.length} likes</li>
                             </div>
                         )}
-                        </div>
+                    </div>
 
-                        <hr style={{opacity: '0.8', borderBottom: '2px solid white'}}/>
-                        <h2 style={{color: 'white'}}>Watch history</h2>
-                        <div className="user-videos-box">
+                    <hr style={{ opacity: '0.8', borderBottom: '2px solid white' }} />
+
+                    <h2 style={{ color: 'white' }}>Watch history</h2> f
+                    <div className="user-videos-box">
                         {viewd.map((data) =>
                             <div className="user-videos">
                                 <Link to={`/dashboard/edit/${data._id}`}>
-                                <img className="user-videos-img" src={data.thumbnailUrl} alt="" />
+                                    <img className="user-videos-img" src={data.thumbnailUrl} alt="" />
                                 </Link>
                                 <li>{data.title}</li>
                                 <li>{data.viewedBy?.length} views - {data.likedBy?.length} likes</li>
                             </div>
                         )}
-                        </div>
+                    </div>
                 </div>
             </div>
         </>
