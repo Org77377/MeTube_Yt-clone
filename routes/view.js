@@ -9,36 +9,37 @@ const viewRoute = express.Router()
 viewRoute.put("/:videoId", async (req, res) => {
   try{
     const token = req.headers.authorization.split(" ")[1];
-    const video = await Video.findById(req.params.videoId)
-    if(req.headers.authorization.split(" ")[1] == ''){
-      video.views +=1;
-      await video.save();
+    const getVid = await Video.findById(req.params.videoId);
+    if(!token){
+      getVid.views += 1;
+      await getVid.save()
       return res.status(200).json({msg: "view added"})
     }else{
-    if(token){
-      console.log(token)
-      const userData = jwt.verify(token, process.env.JWT_SECRET)
-      if(video.viewedBy.includes(userData._id)){
-        return res.status(200).json({msg: "Your view is already registered"})
+      const viewUser = jwt.verify(token, process.env.JWT_SECRET);
+      if(getVid.viewedBy.includes(viewUser._id)){
+        return res.status(204).json({msg: "view already addedd"})
       }
-      await video.viewedBy.push(userData._id)
-      await video.save();
-      return res.status(200).json({msg: "View added"})
+      else{
+        getVid.viewedBy.push(viewUser._id);
+        getVid.views += 1;
+        await getVid.save();
+        return res.status(204).json({msg: "view addedd"})
+      }
     }
-    return res.status(503).json({msg : "error occured"})
-  }
   }catch(err){
+    console.log(req.headers.authorization.split(' ')[1])
     console.log(err)
   }
-});
+})
 
 viewRoute.get("/:videoId", async (req, res) => {
     let lguser = null;
-    if(!req.headers.authorization == ''){
-        lguser = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);   
+    if(!req.headers.authorization == null){
+      lguser = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);   
     }
     else{
-        lguser = null;
+      lguser = null;
+      // console.log(req.headers)
     }
     try {
         const video = await Video.findById(req.params.videoId);
