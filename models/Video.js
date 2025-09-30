@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+// video schema
+// shows how the data is stored in database with different fields and type of data
 const videoSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String },

@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+
+// user schema where all user details are stored
+// shows how the data is stored in database with different fields and type of data
 const user_sch = new mongoose.Schema({
     name: {
         type: String,

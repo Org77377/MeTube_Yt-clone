@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+// comment schema
+// shows how the data is stored in database with different fields and type of data
 const commentSch = mongoose.Schema({
     by: {type: mongoose.Schema.Types.ObjectId, required: true},
     videoId: {type: mongoose.Schema.Types.ObjectId, required: true},
