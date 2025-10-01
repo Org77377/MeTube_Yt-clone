@@ -64,7 +64,7 @@ export async function deleteChannel(req, res) {
                 userdetail.channel.isCreated = false;
                 userdetail.channel.subs = 0;
                 await userdetail.save();
-                return res.status(200).json({ "msg": "Channel Delelted", deleted_data: deletedCh })
+                return res.status(200).json({ "msg": "Channel Deleted", deleted_data: deletedCh })
             }
             // if user is not owner of channel send error
             return res.status(500).json("its not your channel")
