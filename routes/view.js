@@ -8,37 +8,22 @@ const viewRoute = express.Router()
 
 viewRoute.put("/:videoId", async (req, res) => {
   try {
-    // Check if the authorization header is provided
-    // const authHeader = req.headers.authorization;
-    // const token = authHeader ? authHeader.split(" ")[1] : null;
-
-    // Get the video details
-    console.log(req.headers.authorization)
-
+    // console.log(req.headers.authorization)
+    // get token video and user 
+    // validate user 
     const token = req.headers.authorization
     const getVid = await Video.findById(req.params.videoId);
     const viewUser = jwt.verify(token, process.env.JWT_SECRET);
     const getUser = await User.findById(viewUser._id)
-    // If no token is provided, increment view count by 1
-    // if (token == null) {
-    //   getVid.views += 1;
-    //   await getVid.save();
-    //   return res.status(201).json({ msg: "View added without token" });
-    // }
-      // If there is a token, verify the user
-      // const getUsr = await Video.findById(viewUser._id)
-      
-      // Check if the user has already viewed the video
-      if (getVid.viewedBy.includes(viewUser._id)) {
-        return res.status(201).json({ msg: "View already added by this user", user: getUser });
-      }
-      //   // If not, add the user to the viewedBy list and increment view count
-        getVid.viewedBy.push(viewUser._id);
-        getVid.views += 1;
-        await getVid.save();
-        return res.status(201).json({ msg: "View added with token", user: getUser });
+    if (getVid.viewedBy.includes(viewUser._id)) {
+      return res.status(201).json({ msg: "View already added by this user", user: getUser });
+    }
+    //   // If not, add the user to the viewedBy list and increment view count
+    getVid.viewedBy.push(viewUser._id);
+    getVid.views += 1;
+    await getVid.save();
+    return res.status(201).json({ msg: "View added with token", user: getUser });
   } catch (err) {
-    console.log(err)
     return res.status(500).json({ msg: "Login to unlock more features" });
   }
 });
@@ -58,16 +43,16 @@ viewRoute.get("/:videoId", async (req, res) => {
     const allChn = await channel.find({});
     const cms = await Comment.find({ videoId: video._id });
     const user = await User.find({})
-    
+
     // check if user is logged in
-    if(getUser == null){
+    if (getUser == null) {
       // check if video exists
       if (!video) {
         return res.status(404).json("video not found");
       }
       // if user not logged in, send luser as "lguser"
       return res.status(201).json({ videoComments: cms, data: video, user: user, suggest: allVids, user: allUser, channels: allChn, luser: "lguser" });
-    }else{
+    } else {
       // if user logged in, verify the user and send the user data as luser
       const lguser = await jwt.verify(getUser, process.env.JWT_SECRET);
       return res.status(201).json({ videoComments: cms, data: video, user: user, suggest: allVids, user: allUser, channels: allChn, luser: lguser });
