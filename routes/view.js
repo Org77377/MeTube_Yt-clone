@@ -24,7 +24,7 @@ viewRoute.put("/:videoId", async (req, res) => {
     await getVid.save();
     return res.status(201).json({ msg: "View added with token", user: getUser });
   } catch (err) {
-    return res.status(500).json({ msg: "Login to unlock more features" });
+    return res.status(500).json({ msg: "Video not Found" });
   }
 });
 
