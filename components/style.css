@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 * {
   margin: 0px;
@@ -118,9 +118,30 @@ a {
 .logout-btn {
   padding: 8px;
   font-size: 1rem;
+  margin: 10px;
 }
 
-@media (max-width: 720px) {
+.logout-btn span {
+  margin: 10px;
+}
+
+@media (max-width: 880px) {
+
+  .logout-btn span {
+    display: none;
+  }
+
+  .logout-btn {
+    padding: 10px 20px;
+    background-color: rgb(227, 30, 30);
+    color: #fff;
+    width: fit-content;
+  }
+
+  .logout-btn i {
+    font-size: 1rem;
+  }
+
   .navbar {
     display: flex;
     flex-direction: row;
@@ -230,6 +251,7 @@ a {
   margin-top: 1.5rem;
   padding: 10px 0 10px 0;
   cursor: pointer;
+  min-width: 80px;
 }
 
 .content-sm i {
@@ -237,7 +259,7 @@ a {
 }
 
 .content-sm:hover {
-  background-color: rgba(255, 231, 229, 0.50);
+  background-color: rgba(255, 231, 229, 0.5);
   color: red !important;
   border-radius: 10px;
 }
@@ -247,13 +269,15 @@ a {
   gap: 0.8rem;
   font-size: 1rem;
   font-weight: 500;
+  align-items: center;
   width: 100%;
   padding: 0 10px 0 10px;
   cursor: pointer;
+  margin: 20px 0px;
 }
 
 .content:hover {
-  background-color: rgba(255, 231, 229, 0.50);
+  background-color: rgba(255, 231, 229, 0.5);
   color: red !important;
   border-radius: 10px;
 }
@@ -263,7 +287,7 @@ a {
   padding: 5px 5px 5px 5px;
   font-size: 1rem;
   border-radius: 30px;
-  cursor: pointer
+  cursor: pointer;
 }
 
 .user-avatar:active {
@@ -271,7 +295,6 @@ a {
 }
 
 /* Responsive design for Navbar*/
-
 
 /* sign in and user avatar */
 
@@ -287,7 +310,7 @@ a {
 /* Home section */
 /* Main container style */
 .main-container {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   padding: 20px;
   max-width: 1200px;
   height: 100vh;
@@ -337,18 +360,18 @@ a {
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  height: 300px;
+  min-height: 300px;
   animation: 1s linear 1 both reveal;
   transition: all 0.3s ease;
 }
 
 @keyframes reveal {
   0% {
-    filter: blur(5px);
+    filter: blur(0px);
   }
 
   50% {
-    filter: blur(10px);
+    filter: blur(2px);
   }
 
   100% {
@@ -375,9 +398,10 @@ a {
 
 /* Video Info section */
 .video-info {
-  padding: 15px;
+  padding: 10px;
   display: flex;
-  gap: 15px;
+  align-items: center;
+  gap: 10px;
 }
 
 .channel-avatar img {
@@ -445,7 +469,6 @@ a {
 }
 
 @media (max-width: 480px) {
-
   .side-menu {
     height: 100vh;
     width: 60%;
@@ -472,6 +495,7 @@ a {
   padding: 10px;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   border-radius: 50px;
+  overflow: hidden;
 }
 
 .load-items {
@@ -484,11 +508,17 @@ a {
   position: relative;
 }
 
+/* page tiles loading animation while data is being fetched */
 .load-items::before {
-  content: '';
+  content: "";
   background-image: linear-gradient(100deg,
       /* #0543ff,#0066ff,#048eff,rgb(255, 0, 255),rgb(102, 255, 0),cyan,blue */
-      rgba(209, 209, 209, 0.438), rgba(230, 156, 156, 0.493), rgba(193, 192, 192, 0.511), rgba(245, 111, 111, 0.452), rgba(230, 230, 230, 0.479), rgba(249, 220, 220, 0.397));
+      rgba(209, 209, 209, 0.438),
+      rgba(230, 156, 156, 0.493),
+      rgba(193, 192, 192, 0.511),
+      rgba(245, 111, 111, 0.452),
+      rgba(230, 230, 230, 0.479),
+      rgba(249, 220, 220, 0.397));
   width: calc(100% + 10px);
   height: calc(100% + 10px);
   position: absolute;
@@ -530,6 +560,7 @@ a {
   }
 }
 
+/* Responsive Design */
 @media (max-width: 800px) {
   .loader-main {
     grid-template-columns: repeat(1, minmax(300px, 1fr));

@@ -1,4 +1,4 @@
-
+/* video update page styles */
 .container {
     display: flex;
     flex-direction: row;
@@ -6,25 +6,31 @@
     max-width: 100vw;
     margin-top: 80px;
 }
-.video-wrapper, .form-wrapper {
+
+.video-wrapper,
+.form-wrapper {
     flex: 1;
     padding: 20px;
     box-sizing: border-box;
 }
+
 .video-wrapper video {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 8px;
 }
+
 .container form {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
+
 label {
     font-weight: 600;
 }
+
 .container input[type="text"],
 textarea,
 select {
@@ -34,9 +40,11 @@ select {
     border: 1px solid #ccc;
     resize: vertical;
 }
+
 .container input[type="file"] {
     padding: 5px 0;
 }
+
 .container button {
     padding: 12px;
     font-size: 1rem;
@@ -47,18 +55,21 @@ select {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
 .container button:hover {
     background-color: #0056b3;
 }
-textarea{
+
+textarea {
     color: black;
 }
 
 @media (max-width: 768px) {
     .container {
-    flex-direction: column;
+        flex-direction: column;
     }
+
     .video-wrapper {
-    height: 200px;
+        height: 200px;
     }
 }

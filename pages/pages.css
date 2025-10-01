@@ -154,6 +154,7 @@ textarea {
 
 .video-title {
     font-size: 1.5rem;
+    width: 80%;
     margin-bottom: 10px;
 }
 
@@ -249,6 +250,7 @@ textarea {
     background-color: #b01926;
 }
 
+/* small screens */
 @media (max-width: 768px) {
     * {
         overflow-x: hidden;
@@ -331,11 +333,20 @@ textarea {
         gap: 1rem;
     }
 
-    /* 
-    .video-player {
-        margin-right: 20px;
-        margin-bottom: 20px;
-    } */
+    .reactions i {
+        background-color: #ea1f30;
+        color: white;
+        border-radius: 10px;
+        min-width: 60px;
+        padding: auto 10px;
+        margin: 15px 0px;
+        font-size: 1.2rem;
+    }
+
+    .profile-details {
+        position: relative;
+        top: 20px;
+    }
 }
 
 /* comment section */
@@ -354,11 +365,17 @@ textarea {
 /* like button  */
 .reactions {
     display: flex;
-    gap: 20px;
-    font-size: 1.6rem;
+    gap: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: max-content;
 }
 
 .reactions i {
+    background-color: #c5c5c5a9;
+    color: rgb(33, 0, 0);
+    border-radius: 10px;
+    padding: 5px;
     transition: all 0.1s ease;
 }
 
@@ -370,6 +387,7 @@ textarea {
     cursor: pointer;
 }
 
+/* animation for react button of like and dislike */
 @keyframes react {
     0% {
         color: rgb(35, 35, 35);
@@ -417,6 +435,7 @@ textarea {
     animation: 1s load linear infinite both;
 }
 
+/* show while loading data */
 @keyframes load {
     0% {
         transform: scale(0.5);
@@ -472,12 +491,6 @@ textarea {
     position: relative;
 }
 
-/* .btns{
-        display: none;
-        position: relative;
-        top:10px;
-        right: 30px;
-    } */
 .btns {
     display: flex;
     gap: 10px;
@@ -504,7 +517,7 @@ textarea {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    position: absolute;
+    /* position: absolute; */
     background-color: #d11b2a;
     color: white;
     border-radius: 10px;
@@ -513,6 +526,7 @@ textarea {
     gap: 10px;
     font-size: 1.2rem;
     padding: 5px 10px;
+    width: 150px;
     box-sizing: border-box;
 }
 
@@ -537,7 +551,7 @@ textarea {
     display: grid;
     grid-template-columns: 30% 70%;
     gap: 10px;
-
+    animation: reveal-model 1s;
 }
 
 .profile-side {
@@ -552,6 +566,7 @@ textarea {
     align-items: center;
     text-align: center;
     gap: 10px;
+    animation: reveal-model 1.2s;
 }
 
 .profile-side li {
@@ -564,6 +579,7 @@ textarea {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 8px;
     overflow-y: scroll;
+    animation: reveal-model 0.5s;
 }
 
 .video {
@@ -606,6 +622,16 @@ textarea {
 
 .video a:hover {
     color: #1c1c1c;
+}
+
+@keyframes reveal-model {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @media (max-width: 1080px) {
@@ -753,7 +779,12 @@ textarea {
     padding: 5px;
     background-color: white;
     border-radius: 10px;
-    font-size: 1.2rem;
+    font-size: 1rem;
+    position: relative;
+}
+
+.user-videos {
+    padding: 5px;
 }
 
 .user-videos-img {
@@ -762,6 +793,7 @@ textarea {
     aspect-ratio: 16/9;
 }
 
+/* delete video button */
 .del-video {
     background-color: #b01926;
     width: fit-content;
@@ -770,4 +802,8 @@ textarea {
     border-radius: 5px;
     font-size: 1rem;
     cursor: pointer;
+    position: absolute;
+    right: 5px;
+    bottom: 10px;
+    display: flex;
 }

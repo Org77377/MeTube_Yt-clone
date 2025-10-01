@@ -12,6 +12,7 @@ function Home() {
     const { text } = useContext(SidebarBtn);
     const [mainLoad, setLoad] = useState(true);
 
+    //get video data when page is loaded 
     useEffect(() => {
         setLoad(true)
         async function getData() {
@@ -23,7 +24,7 @@ function Home() {
                 .catch((err) => {
                     setLoad(true)
                     setTimeout(() => {
-                        toast.warn("seems like its taking too much time please reload")
+                        toast.warning("seems like you are offline")
                     }, 10000)
                     toast.error(err.response.data.msg)
                 });
@@ -31,11 +32,11 @@ function Home() {
         getData();
     }, [])
 
+    // filter videos from search text
     const searchData = video.videos?.filter((v) => v.title.toLowerCase().includes(text.toLowerCase()));
-
-    // const fildata = !filset == '' ? video.videos?.filter((data) => data?.category == (filset)) : video?.videos;
+    // default set videos to display all videos
     let fildata = video?.videos;
-
+    // video filter by catergories
     if (!filset == '') {
         fildata = video.videos?.filter((data) => data?.category == (filset));
     } else {
@@ -46,7 +47,7 @@ function Home() {
 
     return (
         <div className="main-container">
-
+            {/* dummy overlays for loading screen */}
             {mainLoad &&
                 <div className="loader-main">
                     <div className="load-items">
@@ -63,9 +64,9 @@ function Home() {
                     </div>
                 </div>}
 
-
+            {/* filter videos based on category */}
             <div className="filter-btns">
-                <button onClick={() => { filSwitch('') }} className="filter">All</button>
+                {video?.videos ? <button onClick={() => { filSwitch('') }} className="filter">All</button> : ''}
                 {[...new Set(video.videos?.map(data => data.category))].map((category) =>
                     <button key={category} onClick={() => { filSwitch(category) }} className="filter">
                         {category}
@@ -74,6 +75,7 @@ function Home() {
 
             </div>
             <div className="content-container">
+                {/* logic to get all videos */}
                 {fildata?.map((data) =>
                     <div key={data._id} className="content-box">
                         <Link key={data._id} to={`/video/${data._id}`}>
@@ -81,13 +83,13 @@ function Home() {
                                 <img src={data.thumbnailUrl} alt="video-thumbnail" />
                             </div>
                         </Link>
+                        {/* video card */}
                         <div className="video-info">
                             {video.chInfo?.filter((d) => d.owner.includes(data.uploader)).map(d =>
                                 <Link key={d._id} to={`/channel/${d._id}`}>
                                     <div className="channel-avatar">
                                         <img src={video.chInfo?.filter(d => d.owner.includes(data.uploader)).map(d => d.channelBanner)} alt="" />
                                     </div>
-
                                 </Link>
                             )}
 
@@ -98,6 +100,7 @@ function Home() {
                                 <span className="channel-name sm-txt">
                                     {video.uploader?.filter(d => d._id.includes(data.uploader)).map(d => d.channel.channelName)}
                                 </span>
+                                {/* to display video upload date and time */}
                                 <span className="views-info sm-txt">
                                     {data.viewedBy?.length} views - {
                                         Math.floor((Date.now() - new Date(data.uploadDate).getTime()) / (1000 * 60 * 60)) > 24
