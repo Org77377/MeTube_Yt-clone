@@ -110,10 +110,10 @@ export async function deleteVideo(req, res) {
         // verify user is owner of video or not 
         if (video.uploader == verify._id) {
             // no channel exist
-            // make sure below condition is if (!verify.channel.isCreated != false) if it get changes somehow or throws error while deleting a video 
-            if (!verify.channel.isCreated != false) {
-                return res.status(404).json({ msg: "Please create a channel" });
-            }
+            // make sure below condition is if (!verify.channel.isCreated) if it get changes somehow or throws error while deleting a video 
+            // if (verify.channel.isCreated) {
+            //     return res.status(404).json({ msg: "Please create a channel" });
+            // }
             // if user is owner of video then delete video from cloudinary and database
             await cloudinary.uploader.destroy(video.videoId, { resource_type: 'video' })
             await cloudinary.uploader.destroy(video.thumbnaiId)
