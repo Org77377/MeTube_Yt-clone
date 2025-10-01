@@ -216,7 +216,7 @@ function Dashboard() {
                     <div className="ch-video-side">
                         {/* show user uploaded videos */}
                         <h1>Your videos</h1>
-                        {user.channel?.isCreated ? (
+                        { !uploads?.length <=0 ? (
                             <li style={{ color: 'rgba(229, 229, 229, 0.94)' }}>Click on video thumbnail to edit video details</li>
                         ) : (
                             <p style={{ color: 'white' }}>No uploads yet</p>

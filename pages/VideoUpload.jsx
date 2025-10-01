@@ -129,7 +129,7 @@ function VideoUpload() {
                                 <h2>Create Channel</h2>
                                 <input
                                     type="text"
-                                    pattern={'^[a-zA-Z0-9_-]{3,50}$'}
+                                    pattern='^[a-zA-Z0-9_-]{3,50}$'
                                     title="Username must be between 3 and 50 characters and may only contain letters, numbers, underscores, and hyphens."
                                     onChange={(e) => setChannel(e.target.value)}
                                     placeholder="Channel Name"

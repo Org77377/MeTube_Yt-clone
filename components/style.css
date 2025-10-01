@@ -125,6 +125,15 @@ a {
   margin: 10px;
 }
 
+@media (max-width: 600px) {
+  .search-bar input:focus {
+    width: 95vw;
+    margin: 40px 0px;
+  }
+  .search-bar{
+    width: 100%;
+  }
+}
 @media (max-width: 880px) {
 
   .logout-btn span {
@@ -166,11 +175,6 @@ a {
     border-radius: 0 20px 20px 0;
     width: 1rem;
     border: none;
-  }
-
-  .search-bar input:focus {
-    width: 80vw;
-    margin: 40px 0px;
   }
 
   .search-bar input~.search-btn {
@@ -219,7 +223,10 @@ a {
   left: 0px;
   overflow-y: scroll;
 }
-
+.side-container{
+  height: 140%;
+  overflow-y: scroll;
+}
 /* side menu when not active*/
 .side-menu-sm {
   height: 100vh;
@@ -252,6 +259,7 @@ a {
   padding: 10px 0 10px 0;
   cursor: pointer;
   min-width: 80px;
+  text-align: center;
 }
 
 .content-sm i {
@@ -453,6 +461,7 @@ a {
   .side-menu {
     height: 100vh;
     width: 40%;
+    overflow-y: scroll;
   }
 
   .filter-btns {

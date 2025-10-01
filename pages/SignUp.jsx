@@ -62,7 +62,8 @@ const SignUp = () => {
           Name:{" "}
           <input
             type="text"
-            pattern="^[A-Za-zÀ-ÿ\u00C0-\u00FF\s'-]+$"
+            pattern="^[A-Za-z ]{5,15}$"
+            title="Name must be between 5 and 25 characters withouth any special letters."
             maxLength={50}
             onChange={(e) => setName(e.target.value)}
             name="name"
@@ -71,8 +72,8 @@ const SignUp = () => {
           Username
           <input
             type="text"
-            pattern="^[A-Za-z0-9_-]{3,15}$"
-            title="Username must be between 3 and 15 characters and may only contain letters, numbers, underscores, or hyphens."
+            pattern="^[A-Za-z0-9_-]{5,15}$"
+            title="Username must be between 5 and 15 characters and may only contain letters, numbers, underscores, or hyphens."
             onChange={(e) => setuname(e.target.value)}
             name="username"
             required
@@ -94,7 +95,7 @@ const SignUp = () => {
             required
           />
           Upload
-          <input type="file" onChange={uploadhandle} required />
+          <input type="file" accept="image/*" onChange={uploadhandle} required />
           {/* Preview uploaded image */}
           <div className="preview-container">
             {imgUrl && (

@@ -25,7 +25,7 @@ function Home() {
                     setLoad(true)
                     setTimeout(() => {
                         toast.warning("seems like you are offline")
-                    }, 10000)
+                    }, 1000)
                     toast.error(err.response.data.msg)
                 });
         }
