@@ -1,0 +1,67 @@
+import Comment from "../models/Comment.js";
+import Video from "../models/Video.js";
+import User from "../models/Users.js";
+import channel from "../models/Channel.js";
+import express from "express"
+import jwt from "jsonwebtoken"
+const viewRoute = express.Router()
+
+viewRoute.put("/:videoId", async (req, res) => {
+  try {
+    // console.log(req.headers.authorization)
+    // get token video and user 
+    // validate user 
+    const token = req.headers.authorization
+    const getVid = await Video.findById(req.params.videoId);
+    const viewUser = jwt.verify(token, process.env.JWT_SECRET);
+    const getUser = await User.findById(viewUser._id)
+    if (getVid.viewedBy.includes(viewUser._id)) {
+      return res.status(201).json({ msg: "View already added by this user", user: getUser });
+    }
+    //   // If not, add the user to the viewedBy list and increment view count
+    getVid.viewedBy.push(viewUser._id);
+    getVid.views += 1;
+    await getVid.save();
+    return res.status(201).json({ msg: "View added with token", user: getUser });
+  } catch (err) {
+    return res.status(500).json({ msg: "Video not Found" });
+  }
+});
+
+
+viewRoute.get("/:videoId", async (req, res) => {
+  try {
+    // get the data of the video to be viewed and its comments
+    // also get the data of all videos to be suggested
+    // get the data of all users to display channel names
+    // get the data of all channels to display channel info
+    // get the data of logged in user to check subscription status
+    const getUser = req.headers.authorization.split(' ')[1];
+    const video = await Video.findById(req.params.videoId);
+    const allVids = await Video.find({});
+    const allUser = await User.find({});
+    const allChn = await channel.find({});
+    const cms = await Comment.find({ videoId: video._id });
+    const user = await User.find({})
+
+    // check if user is logged in
+    if (getUser == null) {
+      // check if video exists
+      if (!video) {
+        return res.status(404).json("video not found");
+      }
+      // if user not logged in, send luser as "lguser"
+      return res.status(201).json({ videoComments: cms, data: video, user: user, suggest: allVids, user: allUser, channels: allChn, luser: "lguser" });
+    } else {
+      // if user logged in, verify the user and send the user data as luser
+      const lguser = await jwt.verify(getUser, process.env.JWT_SECRET);
+      return res.status(201).json({ videoComments: cms, data: video, user: user, suggest: allVids, user: allUser, channels: allChn, luser: lguser });
+    }
+  }
+  // catch all errors and send server error message
+  catch (error) {
+    return res.status(400).json("Error loading video");
+  }
+}
+);
+export default viewRoute;
