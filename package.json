@@ -1,0 +1,39 @@
+{
+  "name": "yt_frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "start": "vite",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.2",
+    "@mui/material": "^7.3.2",
+    "axios": "^1.12.2",
+    "bootstrap-icons": "^1.13.1",
+    "dotenv": "^17.2.3",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.9.1",
+    "react-toastify": "^11.0.5",
+    "styled-components": "^6.1.19"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.2",
+    "eslint": "^9.35.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.4.0",
+    "vite": "^7.1.6"
+  },
+  "proxy": "http://localhost:3000/"
+}
