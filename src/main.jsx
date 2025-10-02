@@ -7,7 +7,7 @@ import VideoPage from "../pages/VideoPage.jsx";
 import Home from "../components/Home/Home.jsx";
 import SignUp from "../pages/SignUp.jsx";
 import SignIn from "../pages/Signin.jsx";
-import { Channel } from "../pages/channel.jsx";
+import { Channel } from "../pages/Channel.jsx";
 import { ToastContainer } from "react-toastify";
 import VideoUpload from "../pages/VideoUpload.jsx";
 import Dashboard from "../pages/Dashboard.jsx";
